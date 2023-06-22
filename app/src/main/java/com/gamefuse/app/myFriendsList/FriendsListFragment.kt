@@ -103,7 +103,17 @@ class FriendsListFragment: Fragment(), ReloadFragment {
     }
 
     override fun reloadFragment() {
-        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
+        val fragment = FriendsListFragment()
+
+        val fragmentManager = parentFragmentManager
+
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction.replace(R.id.container, fragment)
+
+        transaction.addToBackStack(null)
+
+        transaction.commit()
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
