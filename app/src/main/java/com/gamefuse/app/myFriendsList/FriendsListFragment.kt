@@ -26,11 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FriendsListFragment: Fragment(), ReloadFragment {
-     companion object {
-          fun newInstance(): FriendsListFragment {
-                return FriendsListFragment()
-          }
-     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +52,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val request = withContext(Dispatchers.IO) {
-                    Request.getFriends("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hbnUiLCJzdWIiOiI2NDU3YzA4ZmE4ZDQ2YTlkMWJhOTViNzIiLCJpYXQiOjE2ODc0NTkwODEsImV4cCI6MTY4NzU0NTQ4MX0.__Te6sUL5giQW6eRJfxsIn9VNpeNVYK61RZbxw9JaUk")
+                    Request.getFriends(Connect.authToken)
                 }
                 val obj = request.friends
                 if (request.friends.isEmpty()){
@@ -67,8 +62,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                 }
 
                 for (friend in obj){
-                    var image: String
-                    image = if (friend.avatar != null){
+                    val image: String = if (friend.avatar != null){
                         friend.avatar!!.location
                     }else{
                         "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"

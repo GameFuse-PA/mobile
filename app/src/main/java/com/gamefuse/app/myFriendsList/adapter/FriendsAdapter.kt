@@ -79,7 +79,7 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         GlobalScope.launch(Dispatchers.Main) {
             try{
                 withContext(Dispatchers.IO) {
-                    deleteFriend("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hbnUiLCJzdWIiOiI2NDU3YzA4ZmE4ZDQ2YTlkMWJhOTViNzIiLCJpYXQiOjE2ODc0NTkwODEsImV4cCI6MTY4NzU0NTQ4MX0.__Te6sUL5giQW6eRJfxsIn9VNpeNVYK61RZbxw9JaUk", id)
+                    deleteFriend(Connect.authToken, id)
                 }
             }catch (e: Exception){
                 e.message?.let { Log.e("Erreur requête", it) }
