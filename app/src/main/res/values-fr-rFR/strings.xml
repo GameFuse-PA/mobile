@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GameFuse</string>
+    <string name="no_friends_text">Vous n\'avez pas encore d\'ami 🥹</string>
+</resources>
