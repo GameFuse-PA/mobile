@@ -1,10 +1,14 @@
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import java.util.Objects
 import java.util.concurrent.TimeUnit
 
@@ -14,10 +18,27 @@ data class Example(
     val attribute: List<String>
 )
 
+data class ResponseAPISuccess(
+    val message: String
+)
+
+data class LoginUser(
+    val message: String
+)
+
+class HeaderInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request().newBuilder()
+            .addHeader("NomDeVotreHeader", "ValeurDeVotreHeader")
+            .build()
+        return chain.proceed(request)
+    }
+}
+
 interface API {
 
-    @GET("/example")
-    fun example(): Deferred<Example>
+    @POST("/auth/login")
+    fun login(@Body data: LoginUser): Deferred<ResponseAPISuccess>
 
 
 }
@@ -38,7 +59,26 @@ object Request {
         .build()
         .create(API::class.java)
 
-    suspend fun addFriend(): Example{
-        return api.example().await()
+    suspend fun login(data: LoginUser): ResponseAPISuccess {
+
+        val modifiedHttpClient = okHttpClient.newBuilder()
+            .addInterceptor(Interceptor { chain ->
+                val originalRequest = chain.request()
+                val modifiedRequest = originalRequest.newBuilder()
+                    .header("NO_AUTH", "true")
+                    .build()
+                chain.proceed(modifiedRequest)
+            })
+            .build()
+
+        val loginApi = Retrofit.Builder()
+            .baseUrl("http://localhost:3000")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(modifiedHttpClient)
+            .build()
+            .create(API::class.java)
+
+        return loginApi.login(data).await()
     }
 }
