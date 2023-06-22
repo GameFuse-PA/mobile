@@ -23,7 +23,22 @@ data class ResponseAPISuccess(
 )
 
 data class LoginUser(
-    val message: String
+    val id: String,
+    val password: String
+)
+
+data class UserFromBack(
+    val _id: String,
+    val username: String,
+    val email: String,
+    val peerIds: Array<String>,
+)
+
+data class LoginResponse(
+    val user: UserFromBack,
+    val access_token: String,
+    val token_type: String,
+    val expires_in: String
 )
 
 class HeaderInterceptor : Interceptor {
@@ -38,7 +53,7 @@ class HeaderInterceptor : Interceptor {
 interface API {
 
     @POST("/auth/login")
-    fun login(@Body data: LoginUser): Deferred<ResponseAPISuccess>
+    fun login(@Body data: LoginUser): Deferred<LoginResponse>
 
 
 }
@@ -59,7 +74,7 @@ object Request {
         .build()
         .create(API::class.java)
 
-    suspend fun login(data: LoginUser): ResponseAPISuccess {
+    suspend fun login(data: LoginUser): LoginResponse {
 
         val modifiedHttpClient = okHttpClient.newBuilder()
             .addInterceptor(Interceptor { chain ->
