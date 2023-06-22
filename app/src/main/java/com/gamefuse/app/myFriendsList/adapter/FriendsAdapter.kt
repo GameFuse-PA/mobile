@@ -51,8 +51,8 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         holder.username.text = friend.username
         holder.addRemoveFriend.setImageResource(R.drawable.delete_friend)
         holder.addRemoveFriend.setOnClickListener {
-            val positiveButton = { dialog: DialogInterface, which: Int -> deleteFriend(friend.id); reloadFragment.reloadFragment()}
-            val negativeButton = { dialog: DialogInterface, which: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
+            val positiveButton = { _: DialogInterface, _: Int -> deleteFriend(friend.id); reloadFragment.reloadFragment()}
+            val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Suppression d'un ami")
             builder.setMessage("Voulez vous vraiment supprimer " + friend.username + " de vos amis ?")
