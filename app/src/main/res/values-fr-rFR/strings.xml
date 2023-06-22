@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GameFuse</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="first_fragment_label">Premier fragment</string>
+    <string name="second_fragment_label">Second fragment</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
+    <string name="hello_first_fragment">Bonjour premier fragment</string>
+    <string name="hello_second_fragment">Bonjour second fragment</string>
     <string name="no_friends_text">Vous n\'avez pas encore d\'ami 🥹</string>
 </resources>
