@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".myFriendsList.FriendsList">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#1976D2"
@@ -14,19 +14,35 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/header_listFriends">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_center_header"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
             android:text="Mes amis"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
+            android:layout_marginStart="20dp"
             android:textSize="20sp"
             android:textColor="@color/white"/>
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/add_friend_icon_header"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="wrap_content"
@@ -77,8 +93,9 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/header_listFriends"
+        app:layout_constraintBottom_toTopOf="@id/footer_my_friends"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -90,22 +107,130 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="#1976D2"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/footer_my_friends">
 
-        <TextView
+        <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            android:text="Mes amis"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6"
+            android:id="@+id/guideline_middle_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15"
+            android:id="@+id/guideline_first_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            android:id="@+id/guideline_second_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85"
+            android:id="@+id/guideline_third_footer"/>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/my_friends_section"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_first_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_first_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/friends_icon_footer"
+                android:layout_weight="0.35"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="Mes amis"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/ranking_section"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_second_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_second_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/trophy_not_focus_icon_footer"
+                android:layout_weight="0.35"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="Classement"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/profil_section"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/profil_not_focus_icon_footer"
+                android:layout_weight="0.35"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="Mon profil"/>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

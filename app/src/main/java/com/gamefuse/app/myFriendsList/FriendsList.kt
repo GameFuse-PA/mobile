@@ -14,6 +14,6 @@ class FriendsList : AppCompatActivity() {
         val bundle = Bundle()
         nextFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, FriendsListFragment.newInstance()).commit()
+            .replace(R.id.container, nextFragment).commit()
     }
 }

@@ -1,27 +1,39 @@
 package com.gamefuse.app.myFriendsList.adapter
 
-import android.annotation.SuppressLint
+import Request.deleteFriend
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
+import com.gamefuse.app.myFriendsList.FriendsList
+import com.gamefuse.app.myFriendsList.FriendsListFragment
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.service.ReloadFragment
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class FriendsAdapter(private val friends: List<ListFriendsDto>): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
+class FriendsAdapter(private val friends: List<ListFriendsDto>, private val reloadFragment: ReloadFragment): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
         val profilPic: ImageView = itemView.findViewById(R.id.pp_user)
+        val addRemoveFriend: ImageView = itemView.findViewById(R.id.add_remove_user)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +49,17 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>): RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
         holder.username.text = friend.username
+        holder.addRemoveFriend.setImageResource(R.drawable.delete_friend)
+        holder.addRemoveFriend.setOnClickListener {
+            val positiveButton = { dialog: DialogInterface, which: Int -> deleteFriend(friend.id); reloadFragment.reloadFragment()}
+            val negativeButton = { dialog: DialogInterface, which: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
+            val builder = AlertDialog.Builder(holder.itemView.context)
+            builder.setTitle("Suppression d'un ami")
+            builder.setMessage("Voulez vous vraiment supprimer " + friend.username + " de vos amis ?")
+            builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
+            builder.setNegativeButton("Non", negativeButton)
+            builder.show()
+        }
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
@@ -48,6 +71,18 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>): RecyclerView.Ad
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    private fun deleteFriend(id: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            try{
+                withContext(Dispatchers.IO) {
+                    deleteFriend("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hbnUiLCJzdWIiOiI2NDU3YzA4ZmE4ZDQ2YTlkMWJhOTViNzIiLCJpYXQiOjE2ODc0NTkwODEsImV4cCI6MTY4NzU0NTQ4MX0.__Te6sUL5giQW6eRJfxsIn9VNpeNVYK61RZbxw9JaUk", id)
+                }
+            }catch (e: Exception){
+                e.message?.let { Log.e("Erreur requête", it) }
             }
         }
     }

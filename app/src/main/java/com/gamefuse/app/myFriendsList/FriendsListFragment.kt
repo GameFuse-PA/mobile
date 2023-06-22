@@ -11,19 +11,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment() {
-
-
+class FriendsListFragment: Fragment(), ReloadFragment {
      companion object {
           fun newInstance(): FriendsListFragment {
                 return FriendsListFragment()
@@ -39,6 +41,12 @@ class FriendsListFragment: Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.list_friends)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL)
+        )
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
@@ -46,10 +54,10 @@ class FriendsListFragment: Fragment() {
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
 
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             try {
                 val request = withContext(Dispatchers.IO) {
-                    Request.getFriends("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hbnUiLCJzdWIiOiI2NDU3YzA4ZmE4ZDQ2YTlkMWJhOTViNzIiLCJpYXQiOjE2ODc0NTU4MTcsImV4cCI6MTY4NzU0MjIxN30.9lMQeyoGoy_ijSIbLBajJH9Qt8d0zAS0hDeXvGTAD9c")
+                    Request.getFriends("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hbnUiLCJzdWIiOiI2NDU3YzA4ZmE4ZDQ2YTlkMWJhOTViNzIiLCJpYXQiOjE2ODc0NTkwODEsImV4cCI6MTY4NzU0NTQ4MX0.__Te6sUL5giQW6eRJfxsIn9VNpeNVYK61RZbxw9JaUk")
                 }
                 val obj = request.friends
                 if (request.friends.isEmpty()){
@@ -57,13 +65,20 @@ class FriendsListFragment: Fragment() {
                     textNoFriends.visibility = View.VISIBLE
                     return@launch
                 }
+
                 for (friend in obj){
+                    var image: String
+                    image = if (friend.avatar != null){
+                        friend.avatar!!.location
+                    }else{
+                        "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                    }
                     imageNoFriends.visibility = View.INVISIBLE
                     textNoFriends.visibility = View.INVISIBLE
-                    listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, friend.avatar.location))
+                    listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                 }
 
-                val adapter = FriendsAdapter(listFriends)
+                val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
                 recyclerView.adapter = adapter
                 recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
@@ -78,15 +93,20 @@ class FriendsListFragment: Fragment() {
                 })
 
             }catch (e: Exception){
-                Toast.makeText(activity, "Impossible de récupérer vos amis, Error: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Impossible de récupérer vos amis, Error: ${e.message}", Toast.LENGTH_LONG).show()
                 e.message?.let { Log.e("Erreur requête", it) }
             }
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return view
 
     }
 
+    override fun reloadFragment() {
+        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
+    }
+
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 
 }
