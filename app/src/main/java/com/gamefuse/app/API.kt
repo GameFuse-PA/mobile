@@ -67,7 +67,7 @@ object Request {
         .build()
 
     private val api = Retrofit.Builder()
-        .baseUrl("http://localhost:3000")
+        .baseUrl("http://192.168.0.182:3000")
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .client(okHttpClient)
@@ -87,7 +87,7 @@ object Request {
             .build()
 
         val loginApi = Retrofit.Builder()
-            .baseUrl("http://localhost:3000")
+            .baseUrl("http://192.168.0.182:3000")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(modifiedHttpClient)

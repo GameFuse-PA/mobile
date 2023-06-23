@@ -1,16 +1,19 @@
 package com.gamefuse.app.login
 
+import Connect
 import LoginResponse
 import LoginUser
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.gamefuse.app.R
+import com.gamefuse.app.homePage.HomePageActivity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -45,17 +48,17 @@ class LoginFragment : Fragment() {
                     val response: LoginResponse = withContext(Dispatchers.IO) {
                         Request.login(LoginUser(login, password))
                     }
-                    Connect.authToken = response.access_token ?: "";
-                    if (response.access_token != null) {
-                        Connect.authToken = response.access_token ?: ""
-                        //TODO: navigaton vers homepage
-                    } else {
-                        //TODO: message d'erreur
-                    }
+                    Connect.authToken = response.access_token;
+                    println("coucou" + Connect.authToken)
+                    val intent = Intent(requireContext(), HomePageActivity::class.java)
+                    startActivity(intent)
+
+
 
                 } catch (e: Exception) {
-                    //TODO: jsp quoi
-                }
+                    val errorMessage = e.message
+                    val errorTextView: TextView = view.findViewById(R.id.textViewError)
+                    errorTextView.text = errorMessage                }
             }
         }
     }
