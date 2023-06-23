@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gamefuse.app.MainActivity
+import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.Request
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.searchFriend.SearchFriend
-import com.gamefuse.app.searchFriend.SearchFriendFragment
 import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.service.ReloadFragment

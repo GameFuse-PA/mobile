@@ -1,6 +1,5 @@
 package com.gamefuse.app.searchFriend
 
-import Connect
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.Request
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
@@ -64,6 +64,21 @@ class SearchFriendFragment: Fragment() {
             activity?.finish()
         }
 
+        GlobalScope.launch {
+            try {
+                Connect.list_friends.clear()
+                val request = withContext(Dispatchers.IO) {
+                    Request.getFriends(Connect.authToken)
+                }
+                for (friend in request.friends) {
+                    Connect.list_friends.add(friend.id)
+                }
+            }catch (e: Exception) {
+                Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
+                e.message?.let { Log.e("Erreur requête", it) }
+            }
+        }
+
         buttonSearch.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 resultLayout.removeAllViews()
@@ -83,7 +98,7 @@ class SearchFriendFragment: Fragment() {
                         resultLayout.requestLayout()
                         return@launch
                     }
-
+                    listUsers.clear()
                     for (user in request){
                         val image: String = if (user.avatar != null){
                             user.avatar!!.location
@@ -94,7 +109,7 @@ class SearchFriendFragment: Fragment() {
 
                     }
 
-                    val adapter = SearchFriendAdapter(listUsers)
+                    val adapter = SearchFriendAdapter(listUsers, Connect.list_friends)
                     if (recyclerView != null) {
                         recyclerView.adapter = adapter
                         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {

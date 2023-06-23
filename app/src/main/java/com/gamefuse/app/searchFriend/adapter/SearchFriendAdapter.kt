@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
+import com.gamefuse.app.User
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -18,7 +19,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class SearchFriendAdapter(private val friends: List<SearchFriendDto>): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
+class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private val myFriendsList: List<String>): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
         val profilPic: ImageView = itemView.findViewById(R.id.pp_user)
@@ -38,16 +39,20 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>): RecyclerV
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
         holder.username.text = friend.username
-        holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
-        holder.addRemoveFriend.setOnClickListener {
-            val positiveButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.yes, Toast.LENGTH_SHORT).show()}
-            val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
-            val builder = AlertDialog.Builder(holder.itemView.context)
-            builder.setTitle("Ajout d'un ami")
-            builder.setMessage("Voulez vous vraiment ajouter " + friend.username + " à votre liste d'amis ?")
-            builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
-            builder.setNegativeButton("Non", negativeButton)
-            builder.show()
+        if (friend.id in myFriendsList){
+            holder.addRemoveFriend.setImageResource(R.drawable.user_in_friends_list)
+        }else{
+            holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
+            holder.addRemoveFriend.setOnClickListener {
+                val positiveButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.yes, Toast.LENGTH_SHORT).show()}
+                val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
+                val builder = AlertDialog.Builder(holder.itemView.context)
+                builder.setTitle("Ajout d'un ami")
+                builder.setMessage("Voulez vous vraiment ajouter " + friend.username + " à votre liste d'amis ?")
+                builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
+                builder.setNegativeButton("Non", negativeButton)
+                builder.show()
+            }
         }
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
