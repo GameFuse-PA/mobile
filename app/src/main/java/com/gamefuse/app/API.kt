@@ -1,3 +1,5 @@
+package com.gamefuse.app
+
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -7,15 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
-import java.util.Objects
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
-
-data class Example(
-    val otherAttribute: String,
-    @SerializedName("attributeIWant")
-    val attribute: List<String>
-)
 
 data class Avatar(
     var location: String,
@@ -42,13 +39,13 @@ data class ResponseAPISuccess(
 
 interface API {
 
-    @GET("/example")
-    fun example(): Deferred<Example>
-
 
     @GET("/me/friends")
     fun getFriends(@Header("Authorization") token: String): Deferred<FriendsList>
 
+
+    @GET("/users")
+    fun searchUser(@Header("Authorization") token: String, @Query("search") search: String): Deferred<List<User>>
 
     @DELETE("/friends/{id}")
     fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Deferred<ResponseAPISuccess>
@@ -71,12 +68,12 @@ object Request {
         .build()
         .create(API::class.java)
 
-    suspend fun addFriend(): Example{
-        return api.example().await()
+    suspend fun getFriends(token: String): FriendsList {
+        return api.getFriends("Bearer $token").await()
     }
 
-    suspend fun getFriends(token: String): FriendsList{
-        return api.getFriends("Bearer $token").await()
+    suspend fun searchUser(token: String, search: String): List<User> {
+        return api.searchUser("Bearer $token", search).await()
     }
 
     suspend fun deleteFriend(token: String, id: String): ResponseAPISuccess {

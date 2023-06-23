@@ -1,5 +1,6 @@
 package com.gamefuse.app.myFriendsList
 
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,14 +12,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gamefuse.app.MainActivity
 import com.gamefuse.app.R
+import com.gamefuse.app.Request
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.searchFriend.SearchFriend
+import com.gamefuse.app.searchFriend.SearchFriendFragment
 import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,12 +46,17 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                 requireContext(),
                 DividerItemDecoration.VERTICAL)
         )
+        val addFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
+        addFriendButton.setOnClickListener {
+            val intent = Intent(activity, SearchFriend::class.java)
+            startActivity(intent)
+        }
 
         GlobalScope.launch(Dispatchers.Main) {
             try {

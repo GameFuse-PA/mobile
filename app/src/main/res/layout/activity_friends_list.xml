@@ -40,6 +40,7 @@
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
             android:layout_marginEnd="20dp"
+            android:id="@+id/add_friend_button"
             android:src="@drawable/add_friend_icon_header"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

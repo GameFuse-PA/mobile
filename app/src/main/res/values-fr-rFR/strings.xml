@@ -10,4 +10,6 @@
     <string name="hello_second_fragment">Bonjour second fragment</string>
     <string name="no_friends_text">Vous n\'avez pas encore d\'ami 🥹</string>
     <string name="search_bar">Nom, Prénom, Email</string>
+    <string name="no_results_search">Aucun résultats trouvés pour la recherche: %1$s</string>
+    <string name="search_friend_header">Rechercher un ami</string>
 </resources>
