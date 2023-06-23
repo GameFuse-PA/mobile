@@ -6,6 +6,7 @@ import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -37,15 +38,22 @@ data class ResponseAPISuccess(
     val message: String
 )
 
+data class RequestAPIAddFriend(
+    @SerializedName("idFriends")
+    val id: String
+)
+
 interface API {
 
 
     @GET("/me/friends")
     fun getFriends(@Header("Authorization") token: String): Deferred<FriendsList>
 
-
     @GET("/users")
     fun searchUser(@Header("Authorization") token: String, @Query("search") search: String): Deferred<List<User>>
+
+    @POST("/friends")
+    fun addFriend(@Header("Authorization") token: String, @Body id: RequestAPIAddFriend): Deferred<ResponseAPISuccess>
 
     @DELETE("/friends/{id}")
     fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Deferred<ResponseAPISuccess>
@@ -74,6 +82,10 @@ object Request {
 
     suspend fun searchUser(token: String, search: String): List<User> {
         return api.searchUser("Bearer $token", search).await()
+    }
+
+    suspend fun addFriend(token: String, id: String): ResponseAPISuccess {
+        return api.addFriend("Bearer $token", RequestAPIAddFriend(id)).await()
     }
 
     suspend fun deleteFriend(token: String, id: String): ResponseAPISuccess {
