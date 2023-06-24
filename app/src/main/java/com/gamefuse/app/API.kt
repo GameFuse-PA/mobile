@@ -23,7 +23,7 @@ data class ResponseAPISuccess(
 )
 
 data class LoginUser(
-    val id: String,
+    val email: String,
     val password: String
 )
 
@@ -94,6 +94,6 @@ object Request {
             .build()
             .create(API::class.java)
 
-        return loginApi.login(data).await()
+        return api.login(data).await()
     }
 }
