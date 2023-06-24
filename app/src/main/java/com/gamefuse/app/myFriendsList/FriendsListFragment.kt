@@ -39,12 +39,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.list_friends)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL)
-        )
+
         val addFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
@@ -79,9 +74,14 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                     textNoFriends.visibility = View.INVISIBLE
                     listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                 }
-
                 val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                recyclerView.itemAnimator = DefaultItemAnimator()
                 recyclerView.adapter = adapter
+                recyclerView.addItemDecoration(
+                    DividerItemDecoration(
+                        requireContext(),
+                        DividerItemDecoration.VERTICAL)
+                )
                 recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
                         outRect: Rect,

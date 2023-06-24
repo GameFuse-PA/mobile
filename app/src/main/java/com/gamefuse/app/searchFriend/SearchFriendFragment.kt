@@ -22,14 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.Request
+import com.gamefuse.app.myFriendsList.FriendsListFragment
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
+import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchFriendFragment: Fragment() {
+class SearchFriendFragment: Fragment(), ReloadFragment {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,7 +111,7 @@ class SearchFriendFragment: Fragment() {
 
                     }
 
-                    val adapter = SearchFriendAdapter(listUsers, Connect.list_friends)
+                    val adapter = SearchFriendAdapter(listUsers, Connect.list_friends, this@SearchFriendFragment)
                     if (recyclerView != null) {
                         recyclerView.adapter = adapter
                         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -140,4 +142,17 @@ class SearchFriendFragment: Fragment() {
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+    override fun reloadFragment() {
+        val fragment = SearchFriendFragment()
+
+        val fragmentManager = parentFragmentManager
+
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction.replace(R.id.container, fragment)
+
+        transaction.addToBackStack(null)
+
+        transaction.commit()
+    }
 }

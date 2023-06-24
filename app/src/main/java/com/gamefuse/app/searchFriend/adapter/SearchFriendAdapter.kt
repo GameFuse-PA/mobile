@@ -16,6 +16,7 @@ import com.gamefuse.app.R
 import com.gamefuse.app.Request
 import com.gamefuse.app.User
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
+import com.gamefuse.app.service.ReloadFragment
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private val myFriendsList: List<String>): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
+class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private val myFriendsList: List<String>, private val reloadFragment: ReloadFragment): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
         val profilPic: ImageView = itemView.findViewById(R.id.pp_user)
@@ -51,7 +52,9 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private va
         }else{
             holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
             holder.addRemoveFriend.setOnClickListener {
-                val positiveButton = { _: DialogInterface, _: Int -> addFriend(friend.id); Toast.makeText(holder.itemView.context, "Ami bien ajouté", Toast.LENGTH_SHORT).show()}
+                val positiveButton = { _: DialogInterface, _: Int -> addFriend(friend.id);
+                    Toast.makeText(holder.itemView.context, "Ami bien ajouté", Toast.LENGTH_SHORT).show();
+                    reloadFragment.reloadFragment()}
                 val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
                 val builder = AlertDialog.Builder(holder.itemView.context)
                 builder.setTitle("Ajout d'un ami")
