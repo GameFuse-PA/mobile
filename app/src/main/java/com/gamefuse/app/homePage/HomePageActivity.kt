@@ -9,11 +9,11 @@ class HomePageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_page)
+        setContentView(R.layout.container)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, HomePageFragment())
+                .replace(R.id.fragmentContainer, HomePageFragment.newInstance())
                 .commit()
         }
     }

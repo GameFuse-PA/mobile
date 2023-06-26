@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.homePage.HomePageActivity
+import com.gamefuse.app.homePage.HomePageFragment
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,6 +23,12 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class LoginFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = LoginFragment()
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

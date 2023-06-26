@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 
 class HomePageFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = HomePageFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
