@@ -11,7 +11,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.container)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, LoginFragment.newInstance())
+            .replace(R.id.fragmentContainer, LoginFragment.newInstance())
             .commit()
     }
 }
