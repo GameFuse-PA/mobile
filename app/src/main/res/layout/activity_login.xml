@@ -42,7 +42,8 @@
                 android:layout_gravity="center"
                 android:inputType="text"
                 android:padding="15dp"
-                android:background="@null"/>
+                android:background="@null"
+                android:textColor="@color/black"/>
 
             <ImageView
                 android:layout_width="25dp"
@@ -68,7 +69,8 @@
                 android:hint="Mot de passe"
                 android:inputType="textPassword|textNoSuggestions"
                 android:padding="15dp"
-                android:background="@null"/>
+                android:background="@null"
+                android:textColor="@color/black"/>
 
             <ImageView
                 android:layout_width="25dp"
