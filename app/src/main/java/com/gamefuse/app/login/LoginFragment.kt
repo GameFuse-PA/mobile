@@ -5,6 +5,7 @@ import LoginResponse
 import LoginUser
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,9 @@ class LoginFragment : Fragment() {
         val editTextLogin = view.findViewById<EditText>(R.id.editTextLogin);
         val editTextPassword = view.findViewById<EditText>(R.id.editTextPassword);
         val textViewError = view.findViewById<TextView>(R.id.textViewError);
+        val forgotPassword = view.findViewById<TextView>(R.id.forgotPassword);
+
+        forgotPassword.paintFlags = forgotPassword.paintFlags or Paint.UNDERLINE_TEXT_FLAG;
 
         problemFieldEmail.visibility = View.INVISIBLE
         problemFieldPassword.visibility = View.INVISIBLE
@@ -75,9 +79,7 @@ class LoginFragment : Fragment() {
                         Connect.authToken = response.access_token
                         val intent = Intent(requireContext(), HomePageActivity::class.java)
                         startActivity(intent)
-                        println("Connexion réussie")
                     } else {
-                        println("unaviable service")
                         problemFieldEmail.visibility = View.VISIBLE
                         problemFieldPassword.visibility = View.VISIBLE
                         editTextLogin.setBackgroundResource(R.drawable.custom_wrong_input_field)
@@ -86,7 +88,6 @@ class LoginFragment : Fragment() {
                         textViewError.setText("Service unaviable")
                     }
                 } catch (e: TimeoutCancellationException) {
-                    println("unaviable service")
                     problemFieldEmail.visibility = View.VISIBLE
                     problemFieldPassword.visibility = View.VISIBLE
                     editTextLogin.setBackgroundResource(R.drawable.custom_wrong_input_field)
@@ -101,9 +102,7 @@ class LoginFragment : Fragment() {
                     editTextLogin.setBackgroundResource(R.drawable.custom_wrong_input_field)
                     editTextPassword.setBackgroundResource(R.drawable.custom_wrong_input_field)
                     passwordEditText.setBackgroundResource(R.drawable.custom_wrong_input_field)
-                    val errorMessage = e.message
-                    val errorTextView: TextView = view.findViewById(R.id.textViewError)
-                    errorTextView.text = errorMessage                }
+                    textViewError.text = "Identifiants invalides"                }
             }
         }
     }

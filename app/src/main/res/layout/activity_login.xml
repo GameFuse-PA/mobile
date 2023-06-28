@@ -41,7 +41,8 @@
                 android:hint="E-mail"
                 android:layout_gravity="center"
                 android:inputType="text"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                android:background="@null"/>
 
             <ImageView
                 android:layout_width="25dp"
@@ -66,7 +67,8 @@
                 android:layout_height="match_parent"
                 android:hint="Mot de passe"
                 android:inputType="textPassword|textNoSuggestions"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                android:background="@null"/>
 
             <ImageView
                 android:layout_width="25dp"
@@ -93,8 +95,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="16sp"
-            android:textColor="#44E60B0B"
+            android:textColor="@color/red"
             android:layout_marginBottom="16dp"
+            android:textStyle="bold"
             android:gravity="center"/>
     </LinearLayout>
 
@@ -108,20 +111,39 @@
             android:id="@+id/buttonLogin"
             android:layout_width="300dp"
             android:layout_height="65dp"
-            android:layout_gravity="center"
             android:background="@drawable/custom_radius_green"
+            android:layout_gravity="center"
             android:text="Se connecter" />
 
         <Button
+            android:background="@drawable/custom_radius_blue"
             android:id="@+id/buttonSubscribe"
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:text="Créer un compte"
             android:layout_gravity="center"
-            android:background="@drawable/custom_radius_blue"
             android:layout_marginTop="35dp"/>
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Mot de passe oublié ?"/>
     </LinearLayout>
 
 
