@@ -3,36 +3,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextLogin"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Login"
-        android:inputType="text" />
+        android:orientation="vertical"
+        android:layout_marginTop="100dp">
 
-    <EditText
-        android:id="@+id/editTextPassword"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GameFuse"
+            android:layout_gravity="center"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mot de passe"
-        android:inputType="textPassword" />
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Se connecter" />
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_grey">
 
-    <TextView
-        android:id="@+id/textViewError"
-        android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/editTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="E-mail"
+                android:layout_gravity="center"
+                android:inputType="text"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/problem_field_email"
+                android:src="@drawable/warning"
+                android:scaleType="centerInside" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_grey">
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Mot de passe"
+                android:inputType="textPassword|textNoSuggestions"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/problem_field_password"
+                android:src="@drawable/warning"
+                android:scaleType="centerInside" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#44E60B0B"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/textViewError"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="#44E60B0B"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp">
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="300dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_green"
+            android:text="Se connecter" />
+
+        <Button
+            android:id="@+id/buttonSubscribe"
+            android:layout_width="300dp"
+            android:layout_height="65dp"
+            android:text="Créer un compte"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_blue"
+            android:layout_marginTop="35dp"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>
