@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
-import com.gamefuse.app.homePage.HomePageActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,8 +75,8 @@ class LoginFragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     Connect.authToken = response.body().toString()
-                    val intent = Intent(requireContext(), HomePageActivity::class.java)
-                    startActivity(intent)
+                    Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
+
                     stopLoading()
                 } else {
                     stopLoading()
