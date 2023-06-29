@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GameFuse"
+            android:text="@string/gamefuse"
             android:layout_gravity="center"
             android:textSize="35sp"
             android:textStyle="bold"
@@ -38,7 +38,7 @@
                 android:id="@+id/editTextLogin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="E-mail"
+                android:hint="@string/e_mail"
                 android:layout_gravity="center"
                 android:inputType="text"
                 android:padding="15dp"
@@ -66,7 +66,7 @@
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Mot de passe"
+                android:hint="@string/mot_de_passe"
                 android:inputType="textPassword|textNoSuggestions"
                 android:padding="15dp"
                 android:background="@null"
@@ -115,14 +115,14 @@
             android:layout_height="65dp"
             android:background="@drawable/custom_radius_green"
             android:layout_gravity="center"
-            android:text="Se connecter" />
+            android:text="@string/se_connecter" />
 
         <Button
             android:background="@drawable/custom_radius_blue"
             android:id="@+id/buttonSubscribe"
             android:layout_width="300dp"
             android:layout_height="65dp"
-            android:text="Créer un compte"
+            android:text="@string/cr_er_un_compte"
             android:layout_gravity="center"
             android:layout_marginTop="35dp"/>
 
@@ -145,7 +145,7 @@
             android:layout_marginBottom="16dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Mot de passe oublié ?"/>
+            android:text="@string/mot_de_passe_oubli"/>
     </LinearLayout>
 
 
