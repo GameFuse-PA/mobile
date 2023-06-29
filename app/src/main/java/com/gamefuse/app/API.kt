@@ -75,25 +75,6 @@ object Request {
         .create(API::class.java)
 
     suspend fun login(data: LoginUser): LoginResponse {
-
-        val modifiedHttpClient = okHttpClient.newBuilder()
-            .addInterceptor(Interceptor { chain ->
-                val originalRequest = chain.request()
-                val modifiedRequest = originalRequest.newBuilder()
-                    .header("NO_AUTH", "true")
-                    .build()
-                chain.proceed(modifiedRequest)
-            })
-            .build()
-
-        val loginApi = Retrofit.Builder()
-            .baseUrl("http://192.168.0.182:3000")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(modifiedHttpClient)
-            .build()
-            .create(API::class.java)
-
         return api.login(data).await()
     }
 }
