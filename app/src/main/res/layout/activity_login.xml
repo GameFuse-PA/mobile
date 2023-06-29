@@ -103,11 +103,21 @@
             android:gravity="center"/>
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="75dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:indeterminateTintMode="src_in"
+        android:orientation="vertical"
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="40dp">
 
         <Button
             android:id="@+id/buttonLogin"
@@ -122,7 +132,7 @@
             android:id="@+id/buttonSubscribe"
             android:layout_width="300dp"
             android:layout_height="65dp"
-            android:text="@string/cr_er_un_compte"
+            android:text="@string/creer_un_compte"
             android:layout_gravity="center"
             android:layout_marginTop="35dp"/>
 

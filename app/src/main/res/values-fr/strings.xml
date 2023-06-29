@@ -12,7 +12,9 @@
     <string name="gamefuse">GameFuse</string>
     <string name="e_mail">E-mail</string>
     <string name="mot_de_passe">Mot de passe</string>
-    <string name="cr_er_un_compte">Créer un compte</string>
+    <string name="creer_un_compte">Créer un compte</string>
     <string name="se_connecter">Se connecter</string>
     <string name="mot_de_passe_oubli">Mot de passe oublié ?</string>
+    <string name="api_error">Service indisponible</string>
+    <string name="invalid_credentials">Identifiants invalides</string>
 </resources>
