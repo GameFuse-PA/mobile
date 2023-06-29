@@ -29,10 +29,6 @@ class LoginFragment : Fragment() {
     private var forgotPassword: TextView? = null
     private var progressBar: ProgressBar? = null
 
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +36,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return LayoutInflater.from(requireContext())
-            .inflate(R.layout.activity_login, container, false)
+            .inflate(R.layout.fragment_login, container, false)
     }
 
     @SuppressLint("CutPasteId")
