@@ -23,6 +23,6 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @POST("/auth/forgot-password")
-    suspend fun forgotPassword(@Header("Authorization") token: String, @Body data: ForgotPassword): Response<LoginResponse>
+    suspend fun forgotPassword(@Body data: ForgotPassword): Response<LoginResponse>
 
 }
