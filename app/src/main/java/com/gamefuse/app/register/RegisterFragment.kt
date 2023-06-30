@@ -80,8 +80,10 @@ class RegisterFragment : Fragment() {
             forgotPassword?.paintFlags?.or(Paint.UNDERLINE_TEXT_FLAG)!!;
 
 
+        this.problemFieldNickname?.visibility = View.INVISIBLE
         this.problemFieldEmail?.visibility = View.INVISIBLE
         this.problemFieldPassword?.visibility = View.INVISIBLE
+        this.problemFieldPasswordConfirmation?.visibility = View.INVISIBLE
     }
 
     private fun register(request: RegisterUser) {
