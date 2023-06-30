@@ -5,21 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="100dp">
+        android:gravity="center"
+        android:layout_marginTop="75dp"
+        android:text="@string/subscribe"
+        android:layout_gravity="center"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gamefuse"
-            android:layout_gravity="center"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +29,34 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_grey">
+
+            <EditText
+                android:id="@+id/editTextNickName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/nickname"
+                android:layout_gravity="center"
+                android:inputType="text"
+                android:padding="15dp"
+                android:background="@null"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/problem_nickname"
+                android:src="@drawable/warning"
+                android:scaleType="centerInside" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/custom_radius_grey">
 
@@ -58,7 +84,7 @@
         <FrameLayout
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/custom_radius_grey">
 
@@ -83,9 +109,35 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_radius_grey">
+
+            <EditText
+                android:id="@+id/editTextPasswordConfirmation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/password_confirmation"
+                android:inputType="textPassword|textNoSuggestions"
+                android:padding="15dp"
+                android:background="@null"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="15dp"
+                android:id="@+id/problem_field_password_confirmation"
+                android:src="@drawable/warning"
+                android:scaleType="centerInside" />
+
+        </FrameLayout>
+
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/textViewError"
@@ -93,10 +145,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
         android:textColor="@color/red"
-        android:layout_marginBottom="16dp"
         android:textStyle="bold"
         android:gravity="center"/>
 
@@ -115,46 +166,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="10dp">
 
         <Button
-            android:id="@+id/buttonLogin"
-            android:layout_width="300dp"
-            android:layout_height="65dp"
             android:background="@drawable/custom_radius_green"
-            android:layout_gravity="center"
-            android:text="@string/se_connecter" />
-
-        <Button
-            android:background="@drawable/custom_radius_blue"
             android:id="@+id/buttonSubscribe"
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:text="@string/creer_un_compte"
             android:layout_gravity="center"
-            android:layout_marginTop="35dp"/>
+            />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="300dp"
+            android:layout_height="65dp"
+            android:background="@drawable/custom_radius_blue"
+            android:layout_gravity="center"
+            android:text="@string/se_connecter"
+            android:layout_marginTop="30dp" />
+
 
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp">
-
-        <TextView
-            android:id="@+id/forgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="16dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:text="@string/mot_de_passe_oubli"/>
-    </LinearLayout>
-
 
 </LinearLayout>
