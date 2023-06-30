@@ -5,3 +5,10 @@ data class ErrorResponse(
     val message: String,
     val error: String
 )
+
+data class ErrorResponseWithArrayMessage(
+    val statusCode: Int,
+    val message: List<String>,
+    val error: String
+)
+

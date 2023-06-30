@@ -13,6 +13,7 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.RegisterUser
 import com.gamefuse.app.api.model.response.ErrorResponse
+import com.gamefuse.app.api.model.response.ErrorResponseWithArrayMessage
 import com.gamefuse.app.login.LoginActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -122,22 +123,30 @@ class RegisterFragment : Fragment() {
                         stopLoading()
                         problemFieldEmail?.visibility = View.VISIBLE
                         problemFieldPassword?.visibility = View.VISIBLE
+                        editTextNickname?.setBackgroundResource(R.drawable.custom_wrong_input_field)
                         editTextLogin?.setBackgroundResource(R.drawable.custom_wrong_input_field)
                         editTextPassword?.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                        editTextPasswordConfirmation?.setBackgroundResource(R.drawable.custom_wrong_input_field)
 
                         val errorBody =  response.errorBody()?.string();
                         if(errorBody != null) {
                             val gson = Gson();
-                            var errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                            textViewError?.setText(errorResponse.message)
+                            try {
+                                var errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                                textViewError?.setText(errorResponse.message)
+                            } catch (e: java.lang.Exception) {
+                                var errorResponse = gson.fromJson(errorBody, ErrorResponseWithArrayMessage::class.java)
+                                textViewError?.setText(errorResponse.message[0])
+                            }
 
                         }else {
-                            textViewError?.setText("couocu")
+                            textViewError?.setText(R.string.api_error)
                         }
                     }
                 } catch (e: Exception) {
                     println(e)
                     stopLoading()
+                    textViewError?.setText(R.string.api_error)
                     Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_SHORT).show()
                 }
             }
