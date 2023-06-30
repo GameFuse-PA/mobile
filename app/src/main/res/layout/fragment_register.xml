@@ -152,15 +152,23 @@
         android:gravity="center"/>
 
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <LinearLayout
         android:layout_width="50dp"
         android:layout_height="75dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:indeterminateTintMode="src_in"
-        android:orientation="vertical"
-        android:layout_gravity="center" />
+        android:layout_gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:indeterminateTintMode="src_in"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
