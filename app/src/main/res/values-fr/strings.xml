@@ -20,4 +20,6 @@
     <string name="api_error">Service indisponible</string>
     <string name="invalid_credentials">Identifiants invalides</string>
     <string name="subscribe">Inscription</string>
+    <string name="not_corresponding_passwords">Les mots de passe ne correspondent pas</string>
+
 </resources>

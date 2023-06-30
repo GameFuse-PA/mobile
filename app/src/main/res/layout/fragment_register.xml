@@ -48,7 +48,7 @@
                 android:layout_height="25dp"
                 android:layout_gravity="end|center"
                 android:layout_marginEnd="15dp"
-                android:id="@+id/problem_nickname"
+                android:id="@+id/problem_field_nickname"
                 android:src="@drawable/warning"
                 android:scaleType="centerInside" />
         </FrameLayout>
@@ -170,7 +170,7 @@
 
         <Button
             android:background="@drawable/custom_radius_green"
-            android:id="@+id/buttonSubscribe"
+            android:id="@+id/buttonRegister"
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:text="@string/creer_un_compte"

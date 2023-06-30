@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
+import com.gamefuse.app.register.RegisterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ import kotlinx.coroutines.withContext
 class LoginFragment : Fragment() {
 
     private var loginButton: Button? = null
+    private var subscribeButton: Button? = null
     private var problemFieldEmail: ImageView? = null
     private var problemFieldPassword: ImageView? = null
     private var editTextLogin: EditText? = null
@@ -43,6 +45,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         this.loginButton = view.findViewById(R.id.buttonLogin)
+        this.subscribeButton = view.findViewById(R.id.buttonSubscribe)
         this.problemFieldEmail = view.findViewById(R.id.problem_field_email)
         this.problemFieldPassword = view.findViewById(R.id.problem_field_password)
         this.editTextLogin = view.findViewById(R.id.editTextLogin);
@@ -57,6 +60,11 @@ class LoginFragment : Fragment() {
                 password = this.editTextPassword?.text.toString()
             )
             this.login(request)
+        }
+
+        this.subscribeButton?.setOnClickListener {
+            val intent = Intent(requireContext(), RegisterActivity::class.java)
+            startActivity(intent)
         }
 
         this.forgotPassword?.paintFlags =
