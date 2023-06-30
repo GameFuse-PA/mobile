@@ -11,9 +11,10 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
-import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.request.RegisterUser
+import com.gamefuse.app.api.model.response.ErrorResponse
 import com.gamefuse.app.login.LoginActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -86,13 +87,26 @@ class RegisterFragment : Fragment() {
         this.problemFieldPasswordConfirmation?.visibility = View.INVISIBLE
     }
 
+    private fun resetOverLay() {
+        this.editTextNickname?.setBackgroundResource(0)
+        this.editTextLogin?.setBackgroundResource(0)
+        this.editTextPassword?.setBackgroundResource(0)
+        this.editTextPasswordConfirmation?.setBackgroundResource(0)
+        this.problemFieldNickname?.visibility = View.INVISIBLE
+        this.problemFieldEmail?.visibility = View.INVISIBLE
+        this.problemFieldPassword?.visibility = View.INVISIBLE
+        this.problemFieldPasswordConfirmation?.visibility = View.INVISIBLE
+        this.textViewError?.setText(null);
+    }
+
     private fun register(request: RegisterUser) {
+        this.resetOverLay()
         if(editTextPassword?.text.toString() != editTextPasswordConfirmation?.text.toString()){
             editTextPassword?.setBackgroundResource(R.drawable.custom_wrong_input_field)
             editTextPasswordConfirmation?.setBackgroundResource(R.drawable.custom_wrong_input_field)
             problemFieldPassword?.visibility = View.VISIBLE
             problemFieldPasswordConfirmation?.visibility = View.VISIBLE
-            textViewError?.setText(R.string.invalid_credentials)
+            textViewError?.setText(R.string.not_corresponding_passwords)
         } else {
             CoroutineScope(Dispatchers.Main).launch {
                 try {
@@ -110,9 +124,19 @@ class RegisterFragment : Fragment() {
                         problemFieldPassword?.visibility = View.VISIBLE
                         editTextLogin?.setBackgroundResource(R.drawable.custom_wrong_input_field)
                         editTextPassword?.setBackgroundResource(R.drawable.custom_wrong_input_field)
-                        textViewError?.setText(R.string.invalid_credentials)
+
+                        val errorBody =  response.errorBody()?.string();
+                        if(errorBody != null) {
+                            val gson = Gson();
+                            var errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                            textViewError?.setText(errorResponse.message)
+
+                        }else {
+                            textViewError?.setText("couocu")
+                        }
                     }
                 } catch (e: Exception) {
+                    println(e)
                     stopLoading()
                     Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_SHORT).show()
                 }
