@@ -1,6 +1,7 @@
 package com.gamefuse.app.api
 
 import com.gamefuse.app.api.model.request.LoginUser
+import com.gamefuse.app.api.model.request.RegisterUser
 import com.gamefuse.app.api.model.response.LoginResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -13,5 +14,9 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("/auth/login")
     suspend fun login(@Body data: LoginUser): Response<LoginResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/auth/register")
+    suspend fun register(@Body data: RegisterUser): Response<LoginResponse>
 
 }
