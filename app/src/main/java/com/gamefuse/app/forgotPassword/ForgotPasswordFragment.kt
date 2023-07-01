@@ -36,7 +36,7 @@ class ForgotPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return LayoutInflater.from(requireContext())
-            .inflate(R.layout.fragment_login, container, false)
+            .inflate(R.layout.fragment_forgot_password, container, false)
     }
 
     @SuppressLint("CutPasteId")

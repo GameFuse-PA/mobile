@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
     //Noe PC fixe"http://192.168.0.182:3000"
     //Noe PC portable : "http://192.168.184.81:3000"
-    private const val BASE_URL: String ="http://192.168.184.81:3000"
+    private const val BASE_URL: String ="http://192.168.0.182:3000"
 
     private val gson : Gson by lazy {
         GsonBuilder().setLenient().create()
