@@ -22,6 +22,7 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment(), ReloadFragment {
+class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
     private var progressBar: ProgressBar? = null
 
@@ -89,7 +90,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment, this@FriendsListFragment)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -124,7 +125,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
 
         val transaction = fragmentManager.beginTransaction()
 
-        transaction.replace(R.id.container, fragment)
+        transaction.replace(R.id.containerFragment, fragment)
 
         transaction.addToBackStack(null)
 
@@ -140,6 +141,23 @@ class FriendsListFragment: Fragment(), ReloadFragment {
 
     private fun stopLoading() {
         progressBar?.visibility = ProgressBar.GONE
+    }
+
+    override fun deleteFriend(id: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try{
+                val request = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.deleteFriend(Connect.authToken, id)
+                }
+                if (request.isSuccessful){
+                    return@launch
+                }else{
+                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
+                }
+            }catch (e: Exception){
+                e.message?.let { Log.e("Erreur requête", it) }
+            }
+        }
     }
 
 }

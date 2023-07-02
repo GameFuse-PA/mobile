@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
 import com.gamefuse.app.service.ReloadFragment
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -26,7 +27,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class FriendsAdapter(private val friends: List<ListFriendsDto>, private val reloadFragment: ReloadFragment): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
+class FriendsAdapter(private val friends: List<ListFriendsDto>, private val reloadFragment: ReloadFragment, private val apiFriendsInterface: ApiFriendsInterface): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
@@ -49,7 +50,7 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         holder.username.text = friend.username
         holder.addRemoveFriend.setImageResource(R.drawable.delete_friend)
         holder.addRemoveFriend.setOnClickListener {
-            val positiveButton = { _: DialogInterface, _: Int -> deleteFriend(friend.id, holder); reloadFragment.reloadFragment()}
+            val positiveButton = { _: DialogInterface, _: Int -> apiFriendsInterface.deleteFriend(friend.id); reloadFragment.reloadFragment()}
             val negativeButton = { _: DialogInterface, _: Int -> print("")}
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Suppression d'un ami")
@@ -69,23 +70,6 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-            }
-        }
-    }
-
-    private fun deleteFriend(id: String, holder: ViewHolder) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.deleteFriend(Connect.authToken, id)
-                }
-                if (request.isSuccessful){
-                    return@launch
-                }else{
-                    Toast.makeText(holder.itemView.context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
             }
         }
     }
