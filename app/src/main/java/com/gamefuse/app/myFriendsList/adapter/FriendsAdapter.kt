@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -50,8 +49,8 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         holder.username.text = friend.username
         holder.addRemoveFriend.setImageResource(R.drawable.delete_friend)
         holder.addRemoveFriend.setOnClickListener {
-            val positiveButton = { _: DialogInterface, _: Int -> deleteFriend(friend.id); reloadFragment.reloadFragment()}
-            val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
+            val positiveButton = { _: DialogInterface, _: Int -> deleteFriend(friend.id, holder); reloadFragment.reloadFragment()}
+            val negativeButton = { _: DialogInterface, _: Int -> print("")}
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Suppression d'un ami")
             builder.setMessage("Voulez vous vraiment supprimer " + friend.username + " de vos amis ?")
@@ -74,11 +73,16 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         }
     }
 
-    private fun deleteFriend(id: String) {
+    private fun deleteFriend(id: String, holder: ViewHolder) {
         CoroutineScope(Dispatchers.Main).launch {
             try{
-                withContext(Dispatchers.IO) {
+                val request = withContext(Dispatchers.IO) {
                     ApiClient.apiService.deleteFriend(Connect.authToken, id)
+                }
+                if (request.isSuccessful){
+                    return@launch
+                }else{
+                    Toast.makeText(holder.itemView.context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
                 }
             }catch (e: Exception){
                 e.message?.let { Log.e("Erreur requête", it) }

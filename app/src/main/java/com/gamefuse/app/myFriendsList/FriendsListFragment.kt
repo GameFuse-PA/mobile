@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -32,12 +33,14 @@ import kotlinx.coroutines.withContext
 
 class FriendsListFragment: Fragment(), ReloadFragment {
 
+    private var progressBar: ProgressBar? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_friends_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_list_friends, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.list_friends)
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -53,7 +56,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
-
+        startLoading()
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 
         return view
@@ -68,14 +71,15 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                 val request = withContext(Dispatchers.IO) {
                     ApiClient.apiService.getFriends("Bearer " + jsonToken.access_token)
                 }
-                val obj = request.body()?.friends
-                if (obj.isNullOrEmpty()){
-                    imageNoFriends.visibility = View.VISIBLE
-                    textNoFriends.visibility = View.VISIBLE
-                    return@launch
-                }
+                if (request.isSuccessful) {
+                    val obj = request.body()?.friends
+                    if (obj.isNullOrEmpty()){
+                        imageNoFriends.visibility = View.VISIBLE
+                        textNoFriends.visibility = View.VISIBLE
+                        return@launch
+                    }
 
-                for (friend in obj){
+                    for (friend in obj){
                         val image: String = if (friend.avatar != null){
                             friend.avatar!!.location
                         }else{
@@ -84,23 +88,28 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                         imageNoFriends.visibility = View.INVISIBLE
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
-                }
-                val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
-                recyclerView.adapter = adapter
-                recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                    override fun getItemOffsets(
-                        outRect: Rect,
-                        view: View,
-                        parent: RecyclerView,
-                        state: RecyclerView.State
-                    ) {
-                        super.getItemOffsets(outRect, view, parent, state)
-                        outRect.bottom = 12.dpToPx()
                     }
-                })
-
+                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                    recyclerView.adapter = adapter
+                    recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                        override fun getItemOffsets(
+                            outRect: Rect,
+                            view: View,
+                            parent: RecyclerView,
+                            state: RecyclerView.State
+                        ) {
+                            super.getItemOffsets(outRect, view, parent, state)
+                            outRect.bottom = 12.dpToPx()
+                        }
+                    })
+                    stopLoading()
+                }else{
+                    stopLoading()
+                    Toast.makeText(context, "Impossible de récupérer vos amis", Toast.LENGTH_LONG).show()
+                }
             }catch (e: Exception){
-                Toast.makeText(context, "Impossible de récupérer vos amis, Error: ${e.message}", Toast.LENGTH_LONG).show()
+                stopLoading()
+                Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_LONG).show()
                 e.message?.let { Log.e("Erreur requête", it) }
             }
         }
@@ -124,5 +133,13 @@ class FriendsListFragment: Fragment(), ReloadFragment {
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
+
+    private fun startLoading() {
+        progressBar?.visibility = ProgressBar.VISIBLE
+    }
+
+    private fun stopLoading() {
+        progressBar?.visibility = ProgressBar.GONE
+    }
 
 }

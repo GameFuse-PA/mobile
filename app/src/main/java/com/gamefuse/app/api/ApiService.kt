@@ -25,7 +25,7 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @DELETE("/friends/{id}")
-    suspend fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): ResponseAPISuccess
+    suspend fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Response<ResponseAPISuccess>
 
 
 }
