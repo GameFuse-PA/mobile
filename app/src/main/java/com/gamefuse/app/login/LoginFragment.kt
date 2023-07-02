@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
+import com.gamefuse.app.myFriendsList.FriendsListFragment
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,9 +76,11 @@ class LoginFragment : Fragment() {
                 val response = withContext(Dispatchers.IO) { ApiClient.apiService.login(request) }
 
                 if (response.isSuccessful && response.body() != null) {
-                    Connect.authToken = response.body().toString()
+                    Connect.authToken = Gson().toJson(response.body())
                     Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
-
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.containerFragment, FriendsListFragment())
+                    transaction.commit()
                     stopLoading()
                 } else {
                     stopLoading()

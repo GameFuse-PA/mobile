@@ -51,7 +51,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:scaleType="centerInside"
+        android:scaleType="center"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         android:id="@+id/add_remove_user"/>

@@ -17,11 +17,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
+import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.service.ReloadFragment
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -49,29 +54,37 @@ class FriendsListFragment: Fragment(), ReloadFragment {
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
 
-        GlobalScope.launch(Dispatchers.Main) {
+        getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
+
+        return view
+
+    }
+
+    private fun getFriends(listFriends: MutableList<ListFriendsDto>, imageNoFriends: ImageView, textNoFriends: TextView, recyclerView: RecyclerView){
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val jsonToken = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
             try {
                 val request = withContext(Dispatchers.IO) {
-                    Request.getFriends(Connect.authToken)
+                    ApiClient.apiService.getFriends("Bearer " + jsonToken.access_token)
                 }
-                val obj = request.friends
-                if (request.friends.isEmpty()){
+                val obj = request.body()?.friends
+                if (obj.isNullOrEmpty()){
                     imageNoFriends.visibility = View.VISIBLE
                     textNoFriends.visibility = View.VISIBLE
                     return@launch
                 }
 
                 for (friend in obj){
-                    val image: String = if (friend.avatar != null){
-                        friend.avatar!!.location
-                    }else{
-                        "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-                    }
-                    imageNoFriends.visibility = View.INVISIBLE
-                    textNoFriends.visibility = View.INVISIBLE
-                    listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
+                        val image: String = if (friend.avatar != null){
+                            friend.avatar!!.location
+                        }else{
+                            "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                        }
+                        imageNoFriends.visibility = View.INVISIBLE
+                        textNoFriends.visibility = View.INVISIBLE
+                        listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                 }
-
                 val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
                 recyclerView.adapter = adapter
                 recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -92,9 +105,8 @@ class FriendsListFragment: Fragment(), ReloadFragment {
             }
         }
 
-        return view
-
     }
+
 
     override fun reloadFragment() {
         val fragment = FriendsListFragment()

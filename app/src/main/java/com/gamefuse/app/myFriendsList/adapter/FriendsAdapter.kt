@@ -1,9 +1,8 @@
 package com.gamefuse.app.myFriendsList.adapter
 
-import Request.deleteFriend
+import Connect
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,12 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
-import com.gamefuse.app.myFriendsList.FriendsList
-import com.gamefuse.app.myFriendsList.FriendsListFragment
+import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.service.ReloadFragment
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -76,10 +75,10 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
     }
 
     private fun deleteFriend(id: String) {
-        GlobalScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main).launch {
             try{
                 withContext(Dispatchers.IO) {
-                    deleteFriend(Connect.authToken, id)
+                    ApiClient.apiService.deleteFriend(Connect.authToken, id)
                 }
             }catch (e: Exception){
                 e.message?.let { Log.e("Erreur requête", it) }
