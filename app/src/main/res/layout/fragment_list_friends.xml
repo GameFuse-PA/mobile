@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#1976D2"
+        android:background="@color/primary"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/header_listFriends">
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
-            android:text="Mes amis"
+            android:text="@string/my_friends"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
@@ -39,7 +39,8 @@
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/add_friend_icon_header"/>
+            android:src="@drawable/add_friend_icon_header"
+            android:contentDescription="@string/add_friends" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -65,7 +66,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/empty_list_image"
-        android:src="@drawable/friends_icon"/>
+        android:src="@drawable/friends_icon"
+        android:contentDescription="@string/no_friends_yet_image" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -86,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:gravity="center"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:id="@+id/empty_list_text"
         app:layout_constraintTop_toBottomOf="@id/empty_list_image"
@@ -127,7 +129,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#1976D2"
+        android:background="@color/primary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/footer_my_friends">
@@ -176,7 +178,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/friends_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_friends" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -185,7 +188,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Mes amis"/>
+                android:text="@string/my_friends"/>
 
         </LinearLayout>
 
@@ -204,7 +207,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/trophy_not_focus_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/ranking" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -213,7 +217,7 @@
                 android:textSize="11sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Classement"/>
+                android:text="@string/ranking"/>
 
 
         </LinearLayout>
@@ -233,7 +237,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/profil_not_focus_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_profile" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -242,7 +247,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Mon profil"/>
+                android:text="@string/my_profile"/>
 
 
         </LinearLayout>

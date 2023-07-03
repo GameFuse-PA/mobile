@@ -17,4 +17,12 @@
     <string name="mot_de_passe_oubli">Mot de passe oublié ?</string>
     <string name="api_error">Service indisponible</string>
     <string name="invalid_credentials">Identifiants invalides</string>
+    <string name="no_friends_text">Vous n\'avez pas encore d\'ami 🥹</string>
+    <string name="my_friends">Mes amis</string>
+    <string name="my_profile">Mon profil</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="add_friends">Ajouter des amis</string>
+    <string name="ranking">Classement</string>
+    <string name="no_friends_yet_image">Pas encore d\'ami</string>
+    <string name="manage_friend_image">Ajouter/supprimer un ami</string>
 </resources>
