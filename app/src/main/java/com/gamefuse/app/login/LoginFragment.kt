@@ -77,7 +77,6 @@ class LoginFragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     Connect.authToken = Gson().toJson(response.body())
-                    Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
                     val intent = Intent(context, FriendsListActivity::class.java)
                     startActivity(intent)
                     activity?.finish()

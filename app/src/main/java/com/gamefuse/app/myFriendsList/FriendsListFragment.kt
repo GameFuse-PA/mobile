@@ -57,7 +57,6 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
-        startLoading()
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 
         return view
@@ -67,6 +66,8 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
     private fun getFriends(listFriends: MutableList<ListFriendsDto>, imageNoFriends: ImageView, textNoFriends: TextView, recyclerView: RecyclerView){
 
         CoroutineScope(Dispatchers.Main).launch {
+            startLoading()
+            
             val jsonToken = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
             try {
                 val request = withContext(Dispatchers.IO) {
