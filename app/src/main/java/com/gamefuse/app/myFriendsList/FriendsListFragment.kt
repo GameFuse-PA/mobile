@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
     private var progressBar: ProgressBar? = null
+    private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,11 +68,10 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
-            
-            val jsonToken = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+
             try {
                 val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getFriends("Bearer " + jsonToken.access_token)
+                    ApiClient.apiService.getFriends("Bearer " + token.access_token)
                 }
                 if (request.isSuccessful) {
                     val obj = request.body()?.friends
@@ -118,6 +118,22 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
     }
 
+    override fun deleteFriend(id: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try{
+                val request = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
+                }
+                if (request.isSuccessful){
+                    return@launch
+                }else{
+                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
+                }
+            }catch (e: Exception){
+                e.message?.let { Log.e("Erreur requête", it) }
+            }
+        }
+    }
 
     override fun reloadFragment() {
         val fragment = FriendsListFragment()
@@ -142,23 +158,6 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
     private fun stopLoading() {
         progressBar?.visibility = ProgressBar.GONE
-    }
-
-    override fun deleteFriend(id: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.deleteFriend(Connect.authToken, id)
-                }
-                if (request.isSuccessful){
-                    return@launch
-                }else{
-                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
     }
 
 }
