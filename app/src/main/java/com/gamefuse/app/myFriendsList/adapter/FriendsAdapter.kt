@@ -27,7 +27,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class FriendsAdapter(private val friends: List<ListFriendsDto>, private val reloadFragment: ReloadFragment, private val apiFriendsInterface: ApiFriendsInterface): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
+class FriendsAdapter(private val friends: List<ListFriendsDto>, private val apiFriendsInterface: ApiFriendsInterface): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
@@ -50,7 +50,7 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val relo
         holder.username.text = friend.username
         holder.addRemoveFriend.setImageResource(R.drawable.delete_friend)
         holder.addRemoveFriend.setOnClickListener {
-            val positiveButton = { _: DialogInterface, _: Int -> apiFriendsInterface.deleteFriend(friend.id); reloadFragment.reloadFragment()}
+            val positiveButton = { _: DialogInterface, _: Int -> apiFriendsInterface.deleteFriend(friend.id)}
             val negativeButton = { _: DialogInterface, _: Int -> print("")}
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Suppression d'un ami")

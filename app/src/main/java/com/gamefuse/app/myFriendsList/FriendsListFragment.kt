@@ -58,6 +58,9 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
+        imageNoFriends.visibility = View.INVISIBLE
+        textNoFriends.visibility = View.INVISIBLE
+
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 
         return view
@@ -91,7 +94,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment, this@FriendsListFragment)
+                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -125,6 +128,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                     ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
                 }
                 if (request.isSuccessful){
+                    reloadFragment()
                     return@launch
                 }else{
                     Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
