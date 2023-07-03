@@ -14,6 +14,8 @@
         android:theme="@style/Theme.GameFuse"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
+        <activity android:name=".myFriendsList.FriendsListActivity"
+            android:exported="true"/>
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"

@@ -17,5 +17,13 @@
     <string name="mot_de_passe_oubli">Forgot password ?</string>
     <string name="api_error">Service unavailable</string>
     <string name="invalid_credentials">Invalid credentials</string>
+    <string name="no_friends_text">You have no friends yet 🥹</string>
+    <string name="my_friends">My Friends</string>
+    <string name="my_profile">My Profile</string>
+    <string name="username">Username</string>
+    <string name="add_friends">Add friends</string>
+    <string name="ranking">Ranking</string>
+    <string name="no_friends_yet_image">No friends yet pic</string>
+    <string name="manage_friend_image">add remove user pic</string>
 
 </resources>
