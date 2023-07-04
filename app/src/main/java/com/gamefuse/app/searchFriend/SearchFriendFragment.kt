@@ -1,17 +1,16 @@
 package com.gamefuse.app.searchFriend
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,17 +20,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
-import com.gamefuse.app.Request
-import com.gamefuse.app.myFriendsList.FriendsListFragment
+import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
+import com.gamefuse.app.searchFriend.service.ApiSearchInterface
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchFriendFragment: Fragment(), ReloadFragment {
+class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
+
+    private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private val bearerTokenHeader = "Bearer " + token.access_token
+    private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,80 +44,63 @@ class SearchFriendFragment: Fragment(), ReloadFragment {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.activity_search_friend,
+            R.layout.fragment_search_friend,
             container,
             false
         )
-        val noResult = TextView(context)
+        val noResult = view.findViewById<TextView>(R.id.no_results_search)
+        noResult.visibility = View.GONE
         val searchText: EditText = view.findViewById(R.id.value_search_user)
         val buttonSearch: LinearLayout = view.findViewById(R.id.search_user_button)
         val listUsers: MutableList<SearchFriendDto> = mutableListOf()
 
-        val recyclerView : RecyclerView? = activity?.let { RecyclerView(it) }
-        if (recyclerView != null) {
-            recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.itemAnimator = DefaultItemAnimator()
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL)
-            )
-        }
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list_search_results)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL)
+        )
 
-        val resultLayout = view.findViewById<ViewGroup>(R.id.search_results)
         val quitButton = view.findViewById<ImageView>(R.id.cross_quit_search_friend)
 
         quitButton.setOnClickListener {
             activity?.finish()
         }
 
-        GlobalScope.launch {
-            try {
-                Connect.list_friends.clear()
-                val request = withContext(Dispatchers.IO) {
-                    Request.getFriends(Connect.authToken)
-                }
-                for (friend in request.friends) {
-                    Connect.list_friends.add(friend.id)
-                }
-            }catch (e: Exception) {
-                Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
-
         buttonSearch.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                resultLayout.removeAllViews()
+            CoroutineScope(Dispatchers.Main).launch {
+                recyclerView.visibility = View.GONE
+                noResult.visibility = View.GONE
+                startLoading()
 
                 try{
                     val request = withContext(Dispatchers.IO) {
-                        Request.searchUser(Connect.authToken, searchText.text.toString())
+                        ApiClient.apiService.searchUser(bearerTokenHeader, searchText.text.toString())
                     }
-
-                    if (request.isEmpty()){
-                        val noResultText = getString(R.string.no_results_search, searchText.text.toString())
-                        noResult.text = noResultText
-                        noResult.textSize = 25F
-                        noResult.gravity = Gravity.CENTER
-                        noResult.setTextColor(Color.BLACK)
-                        resultLayout.addView(noResult)
-                        resultLayout.requestLayout()
-                        return@launch
-                    }
-                    listUsers.clear()
-                    for (user in request){
-                        val image: String = if (user.avatar != null){
-                            user.avatar!!.location
-                        }else{
-                            "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                    if (request.isSuccessful){
+                        if (request.body()!!.isEmpty()){
+                            stopLoading()
+                            val noResultText = getString(R.string.no_results_search, searchText.text.toString())
+                            noResult.text = noResultText
+                            noResult.visibility = View.VISIBLE
+                            return@launch
                         }
-                        listUsers.add(SearchFriendDto(user.id, user.name, user.username, image))
+                        listUsers.clear()
+                        for (res in request.body()!!){
+                            val user = res.user
+                            val isFriend = res.isFriend
+                            val image: String = if (user.avatar != null){
+                                user.avatar!!.location
+                            }else{
+                                "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                            }
+                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend))
 
-                    }
+                        }
 
-                    val adapter = SearchFriendAdapter(listUsers, Connect.list_friends, this@SearchFriendFragment)
-                    if (recyclerView != null) {
+                        val adapter = SearchFriendAdapter(listUsers, this@SearchFriendFragment)
                         recyclerView.adapter = adapter
                         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                             override fun getItemOffsets(
@@ -125,13 +113,16 @@ class SearchFriendFragment: Fragment(), ReloadFragment {
                                 outRect.bottom = 12.dpToPx()
                             }
                         })
-                        resultLayout.addView(recyclerView)
-                        resultLayout.requestLayout()
-                        return@launch
+                        recyclerView.visibility = View.VISIBLE
+                        stopLoading()
+                    }else{
+                        stopLoading()
+                        noResult.visibility = View.VISIBLE
+                        Toast.makeText(context, "Impossible de récupérer les utilisateurs", Toast.LENGTH_LONG).show()
                     }
-
-                    Toast.makeText(context, "Erreur lors de l'affichage de la liste d'ami", Toast.LENGTH_LONG).show()
                 }catch (e: Exception) {
+                    stopLoading()
+                    noResult.visibility = View.VISIBLE
                     Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
                     e.message?.let { Log.e("Erreur requête", it) }
                 }
@@ -140,8 +131,34 @@ class SearchFriendFragment: Fragment(), ReloadFragment {
 
         return view
     }
-
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+    private fun startLoading() {
+        progressBar?.visibility = ProgressBar.VISIBLE
+    }
+
+    private fun stopLoading() {
+        progressBar?.visibility = ProgressBar.GONE
+    }
+
+    override fun addFriend(id: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try{
+                val request = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.addFriend(bearerTokenHeader, id)
+                }
+                if (request.isSuccessful){
+                    Toast.makeText(context, "Demande envoyé", Toast.LENGTH_LONG).show()
+                    reloadFragment()
+                }else{
+                    Toast.makeText(context, "Une demande à déjà été envoyé ou une erreur est survenue", Toast.LENGTH_LONG).show()
+                }
+            }catch (e: Exception){
+                e.message?.let { Log.e("Erreur requête", it) }
+            }
+        }
+    }
+
     override fun reloadFragment() {
         val fragment = SearchFriendFragment()
 
@@ -149,10 +166,11 @@ class SearchFriendFragment: Fragment(), ReloadFragment {
 
         val transaction = fragmentManager.beginTransaction()
 
-        transaction.replace(R.id.container, fragment)
+        transaction.replace(R.id.containerFragment, fragment)
 
         transaction.addToBackStack(null)
 
         transaction.commit()
     }
+
 }

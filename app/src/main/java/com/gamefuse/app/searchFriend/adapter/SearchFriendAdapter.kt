@@ -3,7 +3,6 @@ package com.gamefuse.app.searchFriend.adapter
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +10,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.gamefuse.app.Connect
 import com.gamefuse.app.R
-import com.gamefuse.app.Request
-import com.gamefuse.app.User
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
-import com.gamefuse.app.service.ReloadFragment
+import com.gamefuse.app.searchFriend.service.ApiSearchInterface
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private val myFriendsList: List<String>, private val reloadFragment: ReloadFragment): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
+class SearchFriendAdapter(
+    private val friends: List<SearchFriendDto>,
+    private val apiSearchInterface: ApiSearchInterface
+): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
         val profilPic: ImageView = itemView.findViewById(R.id.pp_user)
@@ -47,15 +42,13 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
         holder.username.text = friend.username
-        if (friend.id in myFriendsList){
+        if (friend.isFriend){
             holder.addRemoveFriend.setImageResource(R.drawable.user_in_friends_list)
         }else{
             holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
             holder.addRemoveFriend.setOnClickListener {
-                val positiveButton = { _: DialogInterface, _: Int -> addFriend(friend.id);
-                    Toast.makeText(holder.itemView.context, "Ami bien ajouté", Toast.LENGTH_SHORT).show();
-                    reloadFragment.reloadFragment()}
-                val negativeButton = { _: DialogInterface, _: Int -> Toast.makeText(holder.itemView.context , android.R.string.no, Toast.LENGTH_SHORT).show()}
+                val positiveButton = { _: DialogInterface, _: Int -> apiSearchInterface.addFriend(friend.id)}
+                val negativeButton = { _: DialogInterface, _: Int -> print("")}
                 val builder = AlertDialog.Builder(holder.itemView.context)
                 builder.setTitle("Ajout d'un ami")
                 builder.setMessage("Voulez vous vraiment ajouter " + friend.username + " à votre liste d'amis ?")
@@ -77,19 +70,6 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>, private va
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-            }
-        }
-    }
-
-
-    private fun addFriend(id: String) {
-        GlobalScope.launch(Dispatchers.Main) {
-            try{
-                withContext(Dispatchers.IO) {
-                    Request.addFriend(Connect.authToken, id)
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
             }
         }
     }
