@@ -29,8 +29,6 @@ import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -64,7 +62,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
         addFriendButton.setOnClickListener {
-            val intent = Intent(activity, SearchFriend::class.java)
+            val intent = Intent(requireContext(), SearchFriend::class.java)
             startActivity(intent)
         }
 

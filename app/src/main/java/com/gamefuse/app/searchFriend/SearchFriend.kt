@@ -10,11 +10,10 @@ class SearchFriend : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_friend)
-        setContentView(R.layout.container)
         val nextFragment = SearchFriendFragment()
         val bundle = Bundle()
         nextFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, nextFragment).commit()
+            .replace(R.id.containerFragment, nextFragment).commit()
     }
 }

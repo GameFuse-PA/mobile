@@ -21,23 +21,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
-import com.gamefuse.app.Request
+import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SearchFriendFragment: Fragment() {
 
+    private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.activity_search_friend,
+            R.layout.fragment_search_friend,
             container,
             false
         )
@@ -64,31 +67,47 @@ class SearchFriendFragment: Fragment() {
             activity?.finish()
         }
 
-        GlobalScope.launch {
-            try {
-                Connect.list_friends.clear()
-                val request = withContext(Dispatchers.IO) {
-                    Request.getFriends(Connect.authToken)
-                }
-                for (friend in request.friends) {
-                    Connect.list_friends.add(friend.id)
-                }
-            }catch (e: Exception) {
-                Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
-
         buttonSearch.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+            CoroutineScope(Dispatchers.Main).launch {
                 resultLayout.removeAllViews()
 
                 try{
                     val request = withContext(Dispatchers.IO) {
-                        Request.searchUser(Connect.authToken, searchText.text.toString())
+                        ApiClient.apiService.searchUser("Bearer " + token.access_token, searchText.text.toString())
                     }
+                    if (request.isSuccessful){
+                        listUsers.clear()
+                        for (res in request.body()!!){
+                            val user = res.user
+                            val isFriend = res.isFriend
+                            val image: String = if (user.avatar != null){
+                                user.avatar!!.location
+                            }else{
+                                "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                            }
+                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend))
 
-                    if (request.isEmpty()){
+                        }
+
+                        val adapter = SearchFriendAdapter(listUsers)
+                        if (recyclerView != null) {
+                            recyclerView.adapter = adapter
+                            recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                                override fun getItemOffsets(
+                                    outRect: Rect,
+                                    view: View,
+                                    parent: RecyclerView,
+                                    state: RecyclerView.State
+                                ) {
+                                    super.getItemOffsets(outRect, view, parent, state)
+                                    outRect.bottom = 12.dpToPx()
+                                }
+                            })
+                            resultLayout.addView(recyclerView)
+                            resultLayout.requestLayout()
+                            return@launch
+                        }
+                    }else{
                         val noResultText = getString(R.string.no_results_search, searchText.text.toString())
                         noResult.text = noResultText
                         noResult.textSize = 25F
@@ -98,37 +117,6 @@ class SearchFriendFragment: Fragment() {
                         resultLayout.requestLayout()
                         return@launch
                     }
-                    listUsers.clear()
-                    for (user in request){
-                        val image: String = if (user.avatar != null){
-                            user.avatar!!.location
-                        }else{
-                            "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-                        }
-                        listUsers.add(SearchFriendDto(user.id, user.name, user.username, image))
-
-                    }
-
-                    val adapter = SearchFriendAdapter(listUsers, Connect.list_friends)
-                    if (recyclerView != null) {
-                        recyclerView.adapter = adapter
-                        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                            override fun getItemOffsets(
-                                outRect: Rect,
-                                view: View,
-                                parent: RecyclerView,
-                                state: RecyclerView.State
-                            ) {
-                                super.getItemOffsets(outRect, view, parent, state)
-                                outRect.bottom = 12.dpToPx()
-                            }
-                        })
-                        resultLayout.addView(recyclerView)
-                        resultLayout.requestLayout()
-                        return@launch
-                    }
-
-                    Toast.makeText(context, "Erreur lors de l'affichage de la liste d'ami", Toast.LENGTH_LONG).show()
                 }catch (e: Exception) {
                     Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
                     e.message?.let { Log.e("Erreur requête", it) }
