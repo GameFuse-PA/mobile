@@ -32,5 +32,6 @@
     <string name="search_bar">Name, Firstname, Email</string>
     <string name="no_results_search">No results found for search: %1$s</string>
     <string name="search_friend_header">Search Friend</string>
+    <string name="quit_activity_logo">Quit activity pic</string>
 
 </resources>

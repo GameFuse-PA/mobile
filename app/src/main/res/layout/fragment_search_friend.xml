@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#1976D2"
+        android:background="@color/primary"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/header_searchFriend">
@@ -39,7 +40,8 @@
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
             android:layout_marginEnd="20dp"
             android:id="@+id/cross_quit_search_friend"
-            android:src="@drawable/cross_quit"/>
+            android:src="@drawable/cross_quit"
+            android:contentDescription="@string/quit_activity_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="49dp"
                 android:background="@drawable/custom_search_edit_text"
-                android:textColorHint="#4A4A4A"
+                android:textColorHint="@color/bg_input_text"
                 android:layout_marginEnd="20dp"
                 android:textColor="@color/black"
                 android:inputType="text"
@@ -124,12 +126,35 @@
                     android:scaleY="0.5"
                     android:scaleX="0.5"
                     android:src="@drawable/search_logo"
-                    />
+                    android:contentDescription="@string/search_bar" />
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_results_search"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:id="@+id/no_results_search"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="75dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminateTintMode="src_in"
+            android:orientation="vertical"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -141,6 +166,11 @@
             android:orientation="vertical"
             android:id="@+id/search_results"
             >
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_search_results"
+                />
         </LinearLayout>
 
 
@@ -150,7 +180,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#1976D2"
+        android:background="@color/primary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/footer_search_friends">
@@ -199,7 +229,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/friends_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_friends" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -208,7 +239,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Mes amis"/>
+                android:text="@string/my_friends"/>
 
         </LinearLayout>
 
@@ -227,7 +258,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/trophy_not_focus_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/ranking" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -236,7 +268,7 @@
                 android:textSize="11sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Classement"/>
+                android:text="@string/ranking"/>
 
 
         </LinearLayout>
@@ -256,7 +288,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/profil_not_focus_icon_footer"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_profile" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -265,7 +298,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="Mon profil"/>
+                android:text="@string/my_profile"/>
 
 
         </LinearLayout>

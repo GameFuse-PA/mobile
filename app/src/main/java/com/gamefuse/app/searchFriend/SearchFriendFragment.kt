@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -28,12 +29,15 @@ import com.gamefuse.app.searchFriend.dto.SearchFriendDto
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SearchFriendFragment: Fragment() {
 
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private var progressBar: ProgressBar? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,23 +48,21 @@ class SearchFriendFragment: Fragment() {
             container,
             false
         )
-        val noResult = TextView(context)
+        val noResult = view.findViewById<TextView>(R.id.no_results_search)
+        noResult.visibility = View.GONE
         val searchText: EditText = view.findViewById(R.id.value_search_user)
         val buttonSearch: LinearLayout = view.findViewById(R.id.search_user_button)
         val listUsers: MutableList<SearchFriendDto> = mutableListOf()
 
-        val recyclerView : RecyclerView? = activity?.let { RecyclerView(it) }
-        if (recyclerView != null) {
-            recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.itemAnimator = DefaultItemAnimator()
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL)
-            )
-        }
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list_search_results)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL)
+        )
 
-        val resultLayout = view.findViewById<ViewGroup>(R.id.search_results)
         val quitButton = view.findViewById<ImageView>(R.id.cross_quit_search_friend)
 
         quitButton.setOnClickListener {
@@ -69,13 +71,22 @@ class SearchFriendFragment: Fragment() {
 
         buttonSearch.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                resultLayout.removeAllViews()
+                recyclerView.visibility = View.GONE
+                noResult.visibility = View.GONE
+                startLoading()
 
                 try{
                     val request = withContext(Dispatchers.IO) {
                         ApiClient.apiService.searchUser("Bearer " + token.access_token, searchText.text.toString())
                     }
                     if (request.isSuccessful){
+                        if (request.body()!!.isEmpty()){
+                            stopLoading()
+                            val noResultText = getString(R.string.no_results_search, searchText.text.toString())
+                            noResult.text = noResultText
+                            noResult.visibility = View.VISIBLE
+                            return@launch
+                        }
                         listUsers.clear()
                         for (res in request.body()!!){
                             val user = res.user
@@ -90,34 +101,28 @@ class SearchFriendFragment: Fragment() {
                         }
 
                         val adapter = SearchFriendAdapter(listUsers)
-                        if (recyclerView != null) {
-                            recyclerView.adapter = adapter
-                            recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                                override fun getItemOffsets(
-                                    outRect: Rect,
-                                    view: View,
-                                    parent: RecyclerView,
-                                    state: RecyclerView.State
-                                ) {
-                                    super.getItemOffsets(outRect, view, parent, state)
-                                    outRect.bottom = 12.dpToPx()
-                                }
-                            })
-                            resultLayout.addView(recyclerView)
-                            resultLayout.requestLayout()
-                            return@launch
-                        }
+                        recyclerView.adapter = adapter
+                        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                            override fun getItemOffsets(
+                                outRect: Rect,
+                                view: View,
+                                parent: RecyclerView,
+                                state: RecyclerView.State
+                            ) {
+                                super.getItemOffsets(outRect, view, parent, state)
+                                outRect.bottom = 12.dpToPx()
+                            }
+                        })
+                        recyclerView.visibility = View.VISIBLE
+                        stopLoading()
                     }else{
-                        val noResultText = getString(R.string.no_results_search, searchText.text.toString())
-                        noResult.text = noResultText
-                        noResult.textSize = 25F
-                        noResult.gravity = Gravity.CENTER
-                        noResult.setTextColor(Color.BLACK)
-                        resultLayout.addView(noResult)
-                        resultLayout.requestLayout()
-                        return@launch
+                        stopLoading()
+                        noResult.visibility = View.VISIBLE
+                        Toast.makeText(context, "Impossible de récupérer les utilisateurs", Toast.LENGTH_LONG).show()
                     }
                 }catch (e: Exception) {
+                    stopLoading()
+                    noResult.visibility = View.VISIBLE
                     Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
                     e.message?.let { Log.e("Erreur requête", it) }
                 }
@@ -128,4 +133,14 @@ class SearchFriendFragment: Fragment() {
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+    private fun startLoading() {
+        progressBar?.visibility = ProgressBar.VISIBLE
+    }
+
+    private fun stopLoading() {
+        progressBar?.visibility = ProgressBar.GONE
+    }
+
+
 }
