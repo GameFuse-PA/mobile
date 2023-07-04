@@ -52,7 +52,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                 requireContext(),
                 DividerItemDecoration.VERTICAL)
         )
-        val addFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
+        val searchFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
@@ -61,7 +61,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
-        addFriendButton.setOnClickListener {
+        searchFriendButton.setOnClickListener {
             val intent = Intent(requireContext(), SearchFriend::class.java)
             startActivity(intent)
         }
