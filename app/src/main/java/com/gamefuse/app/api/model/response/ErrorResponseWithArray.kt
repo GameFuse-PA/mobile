@@ -1,7 +1,7 @@
 package com.gamefuse.app.api.model.response
 
-data class ErrorResponse(
+data class ErrorResponseWithArrayMessage(
     val statusCode: Int,
-    val message: String,
+    val message: List<String>,
     val error: String
 )

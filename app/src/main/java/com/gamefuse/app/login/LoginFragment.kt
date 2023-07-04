@@ -14,6 +14,8 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
 import com.gamefuse.app.register.RegisterActivity
+import com.gamefuse.app.myFriendsList.FriendsListActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -88,10 +90,10 @@ class LoginFragment : Fragment() {
                 val response = withContext(Dispatchers.IO) { ApiClient.apiService.login(request) }
 
                 if (response.isSuccessful && response.body() != null) {
-                    Connect.authToken = response.body().toString()
-                    Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
-
-                    stopLoading()
+                    Connect.authToken = Gson().toJson(response.body())
+                    val intent = Intent(context, FriendsListActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
                 } else {
                     stopLoading()
                     problemFieldEmail?.visibility = View.VISIBLE
