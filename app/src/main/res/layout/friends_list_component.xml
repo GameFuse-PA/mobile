@@ -34,12 +34,13 @@
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         android:scaleType="centerCrop"
-        android:id="@+id/pp_user"/>
+        android:id="@+id/pp_user"
+        android:contentDescription="@string/username" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:text="Username"
+        android:text="@string/username"
         android:textSize="30sp"
         android:layout_marginStart="25dp"
         android:gravity="center|start"
@@ -51,9 +52,10 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:scaleType="centerInside"
+        android:scaleType="center"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
-        android:id="@+id/add_remove_user"/>
+        android:id="@+id/add_remove_user"
+        android:contentDescription="@string/manage_friend_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

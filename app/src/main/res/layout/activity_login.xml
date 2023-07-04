@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".myFriendsList.FriendsListActivity">
+    tools:context=".register.RegisterActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_list_friends" />
+        tools:layout="@layout/fragment_login" />
 
 </LinearLayout>
