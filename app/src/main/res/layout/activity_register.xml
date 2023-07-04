@@ -9,6 +9,6 @@
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_register" />
 
 </LinearLayout>

@@ -11,12 +11,16 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="gamefuse">GameFuse</string>
     <string name="e_mail">E-mail</string>
-    <string name="mot_de_passe">Password</string>
+    <string name="nickname">Nickname</string>
+    <string name="password">Password</string>
+    <string name="password_confirmation">Password confirmation</string>
     <string name="creer_un_compte">Sign in</string>
     <string name="se_connecter">Log in</string>
     <string name="mot_de_passe_oubli">Forgot password ?</string>
     <string name="api_error">Service unavailable</string>
     <string name="invalid_credentials">Invalid credentials</string>
+    <string name="not_corresponding_passwords">Passwords does not correspond</string>
+    <string name="subscribe">Subscribe</string>
     <string name="no_friends_text">You have no friends yet 🥹</string>
     <string name="my_friends">My Friends</string>
     <string name="my_profile">My Profile</string>
