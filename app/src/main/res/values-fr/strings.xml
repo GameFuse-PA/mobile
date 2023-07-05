@@ -20,7 +20,7 @@
     <string name="se_connecter">Se connecter</string>
     <string name="send_mail">Envoyer le mail</string>
     <string name="mot_de_passe_oubli">Mot de passe oublié ?</string>
-    <string name="mail_sent_if_exist">Mail envoyé à l adresse spécifiée</string>
+    <string name="mail_sent_if_exist">Si votre adresse email est valide vous recevrez un email pour changer votre mot de passe</string>
     <string name="api_error">Service indisponible</string>
     <string name="invalid_credentials">Identifiants invalides</string>
     <string name="subscribe">Inscription</string>
