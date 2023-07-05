@@ -52,8 +52,7 @@ class ForgotPasswordFragment : Fragment() {
         this.buttonForgotPassword = view.findViewById(R.id.buttonForgotPassword)
 
         this.loginButton?.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
+            this.activity?.finish();
         }
 
         this.subscribeButton?.setOnClickListener {
@@ -76,19 +75,9 @@ class ForgotPasswordFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 startLoading()
-                val response = withContext(Dispatchers.IO) { ApiClient.apiService.forgotPassword(request) }
-
-                if (response.isSuccessful && response.body() != null) {
-                    Connect.authToken = response.body().toString()
-                    Toast.makeText(context, "Mail sent to backup", Toast.LENGTH_SHORT).show()
-
-                    stopLoading()
-                } else {
-                    stopLoading()
-                    problemFieldEmail?.visibility = View.VISIBLE
-                    editTextLogin?.setBackgroundResource(R.drawable.custom_wrong_input_field)
-                    textViewError?.setText(R.string.invalid_credentials)
-                }
+                withContext(Dispatchers.IO) { ApiClient.apiService.forgotPassword(request) }
+                Toast.makeText(context, R.string.mail_sent_if_exist, Toast.LENGTH_SHORT).show()
+                stopLoading()
             } catch (e: Exception) {
                 stopLoading()
                 Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_SHORT).show()

@@ -20,6 +20,7 @@
     <string name="se_connecter">Log in</string>
     <string name="send_mail">Send mail</string>
     <string name="mot_de_passe_oubli">Forgot password ?</string>
+    <string name="mail_sent_if_exist">Mail sent to specified address.</string>
     <string name="api_error">Service unavailable</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="not_corresponding_passwords">Passwords does not correspond</string>
