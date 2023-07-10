@@ -1,5 +1,6 @@
 package com.gamefuse.app.myFriendsList
 
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
@@ -12,23 +13,22 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
+import com.gamefuse.app.searchFriend.SearchFriend
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -52,6 +52,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                 requireContext(),
                 DividerItemDecoration.VERTICAL)
         )
+        val searchFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
@@ -60,6 +61,10 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
 
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
+        searchFriendButton.setOnClickListener {
+            val intent = Intent(requireContext(), SearchFriend::class.java)
+            startActivity(intent)
+        }
 
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 

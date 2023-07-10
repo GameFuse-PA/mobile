@@ -30,4 +30,8 @@
     <string name="ranking">Classement</string>
     <string name="no_friends_yet_image">Pas encore d\'ami</string>
     <string name="manage_friend_image">Ajouter/supprimer un ami</string>
+    <string name="search_bar">Nom, Prénom, Email</string>
+    <string name="no_results_search">Aucun résultats trouvés pour la recherche: %1$s</string>
+    <string name="search_friend_header">Rechercher un ami</string>
+    <string name="quit_activity_logo">Quitter l\'activité</string>
 </resources>
