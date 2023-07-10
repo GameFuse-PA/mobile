@@ -52,7 +52,7 @@ class SearchFriendAdapter(
                 val builder = AlertDialog.Builder(holder.itemView.context)
                 builder.setTitle("Ajout d'un ami")
                 builder.setMessage("Voulez vous vraiment ajouter " + friend.username + " à votre liste d'amis ?")
-                builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
+                builder.setPositiveButton("Oui", DialogInterface.OnClickListener(positiveButton))
                 builder.setNegativeButton("Non", negativeButton)
                 builder.show()
             }
