@@ -56,6 +56,16 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>): RecyclerV
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
+                if (friend.image == null){
+                    holder.profilPic.post {
+                        val bitmap = BitmapFactory.decodeResource(holder.itemView.context.resources, R.drawable.photo_avatar_profil)
+                        holder.profilPic.setImageBitmap(bitmap)
+                        Picasso.get().load(R.drawable.photo_avatar_profil).resize(300, 300).transform(
+                            CropCircleTransformation()
+                        ).into(holder.profilPic)
+                    }
+                    return@execute
+                }
                 val url = URL(friend.image)
                 val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 holder.profilPic.post {
@@ -65,7 +75,7 @@ class SearchFriendAdapter(private val friends: List<SearchFriendDto>): RecyclerV
                     ).into(holder.profilPic)
                 }
             } catch (e: IOException) {
-                e.printStackTrace()
+                Toast.makeText(holder.itemView.context, "Erreur lors du chargement de l'image", Toast.LENGTH_LONG).show()
             }
         }
     }
