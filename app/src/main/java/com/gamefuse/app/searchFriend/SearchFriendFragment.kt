@@ -91,8 +91,9 @@ class SearchFriendFragment: Fragment() {
                         for (res in request.body()!!){
                             val user = res.user
                             val isFriend = res.isFriend
+                            val isInvited = res.isInvited
                             val image = user.avatar?.location
-                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend))
+                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend, isInvited))
 
                         }
 
