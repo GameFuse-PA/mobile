@@ -150,7 +150,7 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
                     Toast.makeText(context, "Une demande à déjà été envoyé ou une erreur est survenue", Toast.LENGTH_LONG).show()
                 }
             }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
+                Toast.makeText(context, "Erreur lors de la requête", Toast.LENGTH_LONG).show()
             }
         }
     }
