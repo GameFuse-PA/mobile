@@ -39,9 +39,9 @@
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
             android:layout_marginEnd="20dp"
-            android:id="@+id/add_friend_button"
-            android:src="@drawable/add_friend_icon_header"
-            android:contentDescription="@string/add_friends" />
+            android:id="@+id/cross_quit_invitations"
+            android:src="@drawable/cross_quit"
+            android:contentDescription="@string/quit_activity_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -51,8 +51,10 @@
 
     <ImageView
         android:layout_width="50dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
         android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toStartOf="@id/refuse_invitation"
         android:id="@+id/accept_invitation"
@@ -60,8 +62,9 @@
         android:contentDescription="@string/manage_invitation_image" />
     <ImageView
         android:layout_width="50dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         android:src="@drawable/cross_refuse"

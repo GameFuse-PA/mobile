@@ -65,13 +65,13 @@ class MyInvitationsAdapter(private val invitations: List<MyInvitationsDto>): Rec
         executor.execute {
             try {
                 if (invitation.image == null){
-/*                    holder.profilPic.post {
+                    holder.profilPic.post {
                         val bitmap = BitmapFactory.decodeResource(holder.itemView.context.resources, R.drawable.photo_avatar_profil)
                         holder.profilPic.setImageBitmap(bitmap)
                         Picasso.get().load(R.drawable.photo_avatar_profil).resize(300, 300).transform(
                             CropCircleTransformation()
                         ).into(holder.profilPic)
-                    }*/
+                    }
                     return@execute
                 }
                 val url = URL(invitation.image)

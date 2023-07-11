@@ -54,6 +54,11 @@ class MyInvitationsFragment : Fragment(), ReloadFragment {
 
         val listInvitations: MutableList<MyInvitationsDto> = mutableListOf()
         val textNoInvitations: TextView = view.findViewById(R.id.empty_list_text)
+        val quitButton = view.findViewById<ImageView>(R.id.cross_quit_invitations)
+
+        quitButton.setOnClickListener {
+            activity?.finish()
+        }
 
         textNoInvitations.visibility = View.INVISIBLE
 
@@ -79,12 +84,18 @@ class MyInvitationsFragment : Fragment(), ReloadFragment {
                         stopLoading()
                         return@launch
                     }
-                    for (invitation: InvitationsResponse in invitations) {
-                        if (invitation.sender.id === token.user._id) continue
+                    for (invitation in invitations) {
+                        if (invitation.sender.id == token.user._id){
+                            continue
+                        }
                         val image = invitation.sender.avatar?.location
                         listInvitations.add(MyInvitationsDto(invitation.sender.id, invitation.sender.username, image))
                     }
-
+                    if (listInvitations.isEmpty()) {
+                        emptyList.visibility = View.VISIBLE
+                        stopLoading()
+                        return@launch
+                    }
                     val adapter = MyInvitationsAdapter(listInvitations)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
