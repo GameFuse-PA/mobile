@@ -42,7 +42,7 @@ class SearchFriendAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
         holder.username.text = friend.username
-        if (friend.isFriend){
+        if (friend.isFriend || friend.isInvited){
             holder.addRemoveFriend.setImageResource(R.drawable.user_in_friends_list)
         }else{
             holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
@@ -52,7 +52,7 @@ class SearchFriendAdapter(
                 val builder = AlertDialog.Builder(holder.itemView.context)
                 builder.setTitle("Ajout d'un ami")
                 builder.setMessage("Voulez vous vraiment ajouter " + friend.username + " à votre liste d'amis ?")
-                builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
+                builder.setPositiveButton("Oui", DialogInterface.OnClickListener(positiveButton))
                 builder.setNegativeButton("Non", negativeButton)
                 builder.show()
             }
@@ -60,6 +60,16 @@ class SearchFriendAdapter(
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
+                if (friend.image == null){
+                    holder.profilPic.post {
+                        val bitmap = BitmapFactory.decodeResource(holder.itemView.context.resources, R.drawable.photo_avatar_profil)
+                        holder.profilPic.setImageBitmap(bitmap)
+                        Picasso.get().load(R.drawable.photo_avatar_profil).resize(300, 300).transform(
+                            CropCircleTransformation()
+                        ).into(holder.profilPic)
+                    }
+                    return@execute
+                }
                 val url = URL(friend.image)
                 val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 holder.profilPic.post {
@@ -69,7 +79,7 @@ class SearchFriendAdapter(
                     ).into(holder.profilPic)
                 }
             } catch (e: IOException) {
-                e.printStackTrace()
+                Toast.makeText(holder.itemView.context, "Erreur lors du chargement de l'image", Toast.LENGTH_LONG).show()
             }
         }
     }

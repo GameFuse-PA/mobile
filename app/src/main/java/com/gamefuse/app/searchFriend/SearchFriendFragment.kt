@@ -91,12 +91,9 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
                         for (res in request.body()!!){
                             val user = res.user
                             val isFriend = res.isFriend
-                            val image: String = if (user.avatar != null){
-                                user.avatar!!.location
-                            }else{
-                                "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-                            }
-                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend))
+                            val isInvited = res.isInvited
+                            val image = user.avatar?.location
+                            listUsers.add(SearchFriendDto(user.id, user.name, user.username, image, isFriend, isInvited))
 
                         }
 
@@ -124,7 +121,6 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
                     stopLoading()
                     noResult.visibility = View.VISIBLE
                     Toast.makeText(context, "Erreur lors de la connexion", Toast.LENGTH_LONG).show()
-                    e.message?.let { Log.e("Erreur requête", it) }
                 }
             }
         }
@@ -154,7 +150,7 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
                     Toast.makeText(context, "Une demande à déjà été envoyé ou une erreur est survenue", Toast.LENGTH_LONG).show()
                 }
             }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
+                Toast.makeText(context, "Erreur lors de la requête", Toast.LENGTH_LONG).show()
             }
         }
     }
