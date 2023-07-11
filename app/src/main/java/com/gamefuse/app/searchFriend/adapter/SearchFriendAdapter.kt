@@ -42,7 +42,7 @@ class SearchFriendAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
         holder.username.text = friend.username
-        if (friend.isFriend){
+        if (friend.isFriend || friend.isInvited){
             holder.addRemoveFriend.setImageResource(R.drawable.user_in_friends_list)
         }else{
             holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
