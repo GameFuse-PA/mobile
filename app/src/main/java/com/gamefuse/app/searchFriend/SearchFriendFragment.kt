@@ -3,7 +3,6 @@ package com.gamefuse.app.searchFriend
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,15 +23,13 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
-import com.gamefuse.app.searchFriend.service.ApiSearchInterface
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
-import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
+class SearchFriendFragment: Fragment() {
 
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
     private val bearerTokenHeader = "Bearer " + token.access_token
@@ -97,7 +94,7 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
 
                         }
 
-                        val adapter = SearchFriendAdapter(listUsers, this@SearchFriendFragment)
+                        val adapter = SearchFriendAdapter(listUsers)
                         recyclerView.adapter = adapter
                         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                             override fun getItemOffsets(
@@ -135,38 +132,6 @@ class SearchFriendFragment: Fragment(), ReloadFragment, ApiSearchInterface {
 
     private fun stopLoading() {
         progressBar?.visibility = ProgressBar.GONE
-    }
-
-    override fun addFriend(id: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.addFriend(bearerTokenHeader, id)
-                }
-                if (request.isSuccessful){
-                    Toast.makeText(context, "Demande envoyé", Toast.LENGTH_LONG).show()
-                    reloadFragment()
-                }else{
-                    Toast.makeText(context, "Une demande à déjà été envoyé ou une erreur est survenue", Toast.LENGTH_LONG).show()
-                }
-            }catch (e: Exception){
-                Toast.makeText(context, "Erreur lors de la requête", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    override fun reloadFragment() {
-        val fragment = SearchFriendFragment()
-
-        val fragmentManager = parentFragmentManager
-
-        val transaction = fragmentManager.beginTransaction()
-
-        transaction.replace(R.id.containerFragment, fragment)
-
-        transaction.addToBackStack(null)
-
-        transaction.commit()
     }
 
 }

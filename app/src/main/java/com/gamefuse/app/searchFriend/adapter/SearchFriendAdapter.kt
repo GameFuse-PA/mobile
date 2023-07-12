@@ -10,18 +10,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.gamefuse.app.Connect
 import com.gamefuse.app.R
+import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
-import com.gamefuse.app.searchFriend.service.ApiSearchInterface
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
 class SearchFriendAdapter(
-    private val friends: List<SearchFriendDto>,
-    private val apiSearchInterface: ApiSearchInterface
+    private val friends: List<SearchFriendDto>
 ): RecyclerView.Adapter<SearchFriendAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.username_list_friends)
@@ -47,7 +53,7 @@ class SearchFriendAdapter(
         }else{
             holder.addRemoveFriend.setImageResource(R.drawable.add_friend)
             holder.addRemoveFriend.setOnClickListener {
-                val positiveButton = { _: DialogInterface, _: Int -> apiSearchInterface.addFriend(friend.id)}
+                val positiveButton = { _: DialogInterface, _: Int -> addFriend(holder, friend.id)}
                 val negativeButton = { _: DialogInterface, _: Int -> print("")}
                 val builder = AlertDialog.Builder(holder.itemView.context)
                 builder.setTitle("Ajout d'un ami")
@@ -84,5 +90,23 @@ class SearchFriendAdapter(
         }
     }
 
+    private fun addFriend(holder: ViewHolder, id: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try{
+                val response = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.addFriend("Bearer " + Gson().fromJson(Connect.authToken, LoginResponse::class.java).access_token, id)
+                }
+                if (response.isSuccessful){
+                    holder.addRemoveFriend.setImageResource(R.drawable.user_in_friends_list)
+                    holder.addRemoveFriend.isClickable = false
+                    Toast.makeText(holder.itemView.context, "Demande envoyé", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(holder.itemView.context, "Une demande à déjà été envoyé ou une erreur est survenue", Toast.LENGTH_LONG).show()
+                }
+            }catch (e: Exception){
+                Toast.makeText(holder.itemView.context, "Erreur lors de la requête", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
 }
