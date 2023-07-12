@@ -27,7 +27,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class FriendsAdapter(private val friends: List<ListFriendsDto>, private val fragmentReloadFragment: ReloadFragment): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
+class FriendsAdapter(private val friends: MutableList<ListFriendsDto>): RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
 
@@ -76,6 +76,16 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val frag
         }
     }
 
+    private fun removeFriend(holder: ViewHolder, position: Int) {
+        if (position < 0 || position >= friends.size) {
+            Toast.makeText(holder.itemView.context, "Veuillez quitter pour voir l'actualisation de vos amis", Toast.LENGTH_LONG).show()
+            return
+        }
+        friends.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, friends.size)
+    }
+
     private fun deleteFriend(holder: ViewHolder, id: String) {
         CoroutineScope(Dispatchers.Main).launch {
             try{
@@ -83,7 +93,9 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val frag
                     ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
                 }
                 if (response.isSuccessful){
-                    fragmentReloadFragment.reloadFragment()
+                    Toast.makeText(holder.itemView.context, "Ami supprimé", Toast.LENGTH_SHORT).show()
+                    val position = holder.bindingAdapterPosition
+                    removeFriend(holder, position)
                     return@launch
                 }else{
                     Toast.makeText(holder.itemView.context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()

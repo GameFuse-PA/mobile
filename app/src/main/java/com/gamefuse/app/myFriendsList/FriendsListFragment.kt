@@ -24,14 +24,13 @@ import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.searchFriend.SearchFriend
-import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment(), ReloadFragment {
+class FriendsListFragment: Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -98,7 +97,7 @@ class FriendsListFragment: Fragment(), ReloadFragment {
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                    val adapter = FriendsAdapter(listFriends)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -123,20 +122,6 @@ class FriendsListFragment: Fragment(), ReloadFragment {
             }
         }
 
-    }
-
-    override fun reloadFragment() {
-        val fragment = FriendsListFragment()
-
-        val fragmentManager = parentFragmentManager
-
-        val transaction = fragmentManager.beginTransaction()
-
-        transaction.replace(R.id.containerFragment, fragment)
-
-        transaction.addToBackStack(null)
-
-        transaction.commit()
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
