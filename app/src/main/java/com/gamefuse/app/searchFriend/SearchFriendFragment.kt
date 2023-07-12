@@ -3,7 +3,6 @@ package com.gamefuse.app.searchFriend
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +23,8 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.adapter.SearchFriendAdapter
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
-import com.gamefuse.app.searchFriend.service.ApiSearchInterface
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
-import com.gamefuse.app.service.ReloadFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
