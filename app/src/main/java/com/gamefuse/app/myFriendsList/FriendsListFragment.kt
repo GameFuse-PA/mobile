@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
+class FriendsListFragment: Fragment(), ReloadFragment {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -124,24 +124,6 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
             }
         }
 
-    }
-
-    override fun deleteFriend(id: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
-                }
-                if (request.isSuccessful){
-                    reloadFragment()
-                    return@launch
-                }else{
-                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
     }
 
     override fun reloadFragment() {
