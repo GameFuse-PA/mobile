@@ -30,7 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MyInvitationsFragment : Fragment(), ReloadFragment {
+class MyInvitationsFragment : Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -121,21 +121,6 @@ class MyInvitationsFragment : Fragment(), ReloadFragment {
 
         }
 
-    }
-
-
-    override fun reloadFragment() {
-        val fragment = MyInvitationsFragment()
-
-        val fragmentManager = parentFragmentManager
-
-        val transaction = fragmentManager.beginTransaction()
-
-        transaction.replace(R.id.containerFragment, fragment)
-
-        transaction.addToBackStack(null)
-
-        transaction.commit()
     }
 
 

@@ -19,7 +19,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 
-class MyInvitationsAdapter(private val invitations: List<MyInvitationsDto>): RecyclerView.Adapter<MyInvitationsAdapter.ViewHolder>() {
+class MyInvitationsAdapter(private val invitations: MutableList<MyInvitationsDto>): RecyclerView.Adapter<MyInvitationsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val userName: TextView = itemView.findViewById(R.id.username_list_invitations)
