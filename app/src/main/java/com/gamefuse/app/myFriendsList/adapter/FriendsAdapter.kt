@@ -3,7 +3,6 @@ package com.gamefuse.app.myFriendsList.adapter
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
-import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -81,10 +79,10 @@ class FriendsAdapter(private val friends: List<ListFriendsDto>, private val frag
     private fun deleteFriend(holder: ViewHolder, id: String) {
         CoroutineScope(Dispatchers.Main).launch {
             try{
-                val request = withContext(Dispatchers.IO) {
+                val response = withContext(Dispatchers.IO) {
                     ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
                 }
-                if (request.isSuccessful){
+                if (response.isSuccessful){
                     fragmentReloadFragment.reloadFragment()
                     return@launch
                 }else{

@@ -23,7 +23,6 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
-import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
 import com.gamefuse.app.searchFriend.SearchFriend
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
