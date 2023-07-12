@@ -1,11 +1,8 @@
 package com.gamefuse.app.searchFriend
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,13 +26,13 @@ import com.gamefuse.app.searchFriend.dto.SearchFriendDto
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SearchFriendFragment: Fragment() {
 
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private val bearerTokenHeader = "Bearer " + token.access_token
     private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
@@ -77,7 +74,7 @@ class SearchFriendFragment: Fragment() {
 
                 try{
                     val request = withContext(Dispatchers.IO) {
-                        ApiClient.apiService.searchUser("Bearer " + token.access_token, searchText.text.toString())
+                        ApiClient.apiService.searchUser(bearerTokenHeader, searchText.text.toString())
                     }
                     if (request.isSuccessful){
                         if (request.body()!!.isEmpty()){
@@ -127,7 +124,6 @@ class SearchFriendFragment: Fragment() {
 
         return view
     }
-
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     private fun startLoading() {
@@ -137,6 +133,5 @@ class SearchFriendFragment: Fragment() {
     private fun stopLoading() {
         progressBar?.visibility = ProgressBar.GONE
     }
-
 
 }

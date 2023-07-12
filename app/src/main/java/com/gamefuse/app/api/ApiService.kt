@@ -33,6 +33,10 @@ interface ApiService {
     @GET("/users")
     suspend fun searchUser(@Header("Authorization") token: String, @Query("search") search: String): Response<List<SearchUsersResponse>>
 
+    @POST("/users/{id}/invite")
+    suspend fun addFriend(@Header("Authorization") token: String, @Path("id") id: String): Response<ResponseAPISuccess>
+
+
     @Headers("Content-Type: application/json")
     @DELETE("/friends/{id}")
     suspend fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Response<ResponseAPISuccess>
