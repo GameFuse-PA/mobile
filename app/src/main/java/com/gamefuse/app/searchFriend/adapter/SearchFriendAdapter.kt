@@ -15,7 +15,6 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.searchFriend.dto.SearchFriendDto
-import com.gamefuse.app.searchFriend.service.ApiSearchInterface
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
