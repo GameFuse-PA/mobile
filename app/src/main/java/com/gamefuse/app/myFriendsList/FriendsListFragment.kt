@@ -24,6 +24,7 @@ import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
+import com.gamefuse.app.profil.ProfilActivity
 import com.gamefuse.app.searchFriend.SearchFriend
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
@@ -59,11 +60,20 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
+        val myProfilSection = view.findViewById<View>(R.id.profil_section)
+
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
+
         searchFriendButton.setOnClickListener {
             val intent = Intent(requireContext(), SearchFriend::class.java)
             startActivity(intent)
+        }
+
+        myProfilSection.setOnClickListener{
+            val intent = Intent(requireContext(), ProfilActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
