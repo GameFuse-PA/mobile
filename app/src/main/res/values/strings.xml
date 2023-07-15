@@ -33,5 +33,9 @@
     <string name="no_results_search">No results found for search: %1$s</string>
     <string name="search_friend_header">Search Friend</string>
     <string name="quit_activity_logo">Quit activity pic</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="save">Save</string>
 
 </resources>

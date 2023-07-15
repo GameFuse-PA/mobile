@@ -93,28 +93,40 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/firstname"
+                android:padding="15dp"
+                android:hint="@string/firstname"
+                android:background="@drawable/custom_radius_grey_minor_radius"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:padding="15dp"
                 android:id="@+id/lastname"
+                android:hint="@string/lastname"
+                android:background="@drawable/custom_radius_grey_minor_radius"
                 app:layout_constraintTop_toBottomOf="@id/firstname"
                 android:layout_marginTop="35dp"/>
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:padding="15dp"
                 android:id="@+id/email"
+                android:hint="@string/e_mail"
+                android:background="@drawable/custom_radius_grey_minor_radius"
                 app:layout_constraintTop_toBottomOf="@id/lastname"
                 android:layout_marginTop="35dp"/>
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:padding="15dp"
                 android:id="@+id/birthdate"
+                android:hint="@string/birthdate"
+                android:background="@drawable/custom_radius_grey_minor_radius"
                 app:layout_constraintTop_toBottomOf="@id/email"
                 android:layout_marginTop="35dp"/>
 
@@ -123,13 +135,15 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/custom_radius_green_minor_radius"
             app:layout_constraintStart_toStartOf="@id/size_element_start"
             app:layout_constraintEnd_toEndOf="@id/size_element_end"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="25dp"
-            android:text="enregistrer"/>
+            android:text="@string/save"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
