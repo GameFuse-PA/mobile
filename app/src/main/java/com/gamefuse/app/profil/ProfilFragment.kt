@@ -16,7 +16,6 @@ import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.myFriendsList.FriendsListActivity
-import com.gamefuse.app.myFriendsList.FriendsListFragment
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -32,25 +31,23 @@ class ProfilFragment: Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val userObject = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private var textViewError: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_profil, container, false)
-
         val profilPic: ImageView = view.findViewById(R.id.image_profil)
-
         val firstname: TextView = view.findViewById(R.id.firstname)
         val lastname: TextView = view.findViewById(R.id.lastname)
         val email: TextView = view.findViewById(R.id.email)
         val birthdate: TextView = view.findViewById(R.id.birthdate)
-
+        this.textViewError = view.findViewById(R.id.textViewError)
         val friendsSection = view.findViewById<View>(R.id.my_friends_section)
-
         val saveButton: Button = view.findViewById(R.id.save_changes)
+
         val pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         firstname.hint = userObject.user.firstname ?: getString(R.string.firstname)
@@ -110,10 +107,7 @@ class ProfilFragment: Fragment() {
     }
 
 
-    private fun saveChanges(firstname: String, lastname: String, email: String, birthdate: String) {
-
-
-    }
+    private fun saveChanges(firstname: String, lastname: String, email: String, birthdate: String) {}
 
 
 }
