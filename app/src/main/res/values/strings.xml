@@ -33,5 +33,9 @@
     <string name="ranking">Ranking</string>
     <string name="no_friends_yet_image">No friends yet pic</string>
     <string name="manage_friend_image">add remove user pic</string>
+    <string name="search_bar">Username, Firstname, Email</string>
+    <string name="no_results_search">No results found for search: %1$s</string>
+    <string name="search_friend_header">Search Friend</string>
+    <string name="quit_activity_logo">Quit activity pic</string>
 
 </resources>
