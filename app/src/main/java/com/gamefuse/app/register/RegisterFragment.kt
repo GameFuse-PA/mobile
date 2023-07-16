@@ -133,10 +133,10 @@ class RegisterFragment : Fragment() {
                         if(errorBody != null) {
                             val gson = Gson();
                             try {
-                                var errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                                val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
                                 textViewError?.setText(errorResponse.message)
                             } catch (e: java.lang.Exception) {
-                                var errorResponse = gson.fromJson(errorBody, ErrorResponseWithArrayMessage::class.java)
+                                val errorResponse = gson.fromJson(errorBody, ErrorResponseWithArrayMessage::class.java)
                                 textViewError?.setText(errorResponse.message[0])
                             }
 
