@@ -1,6 +1,5 @@
 package com.gamefuse.app.forgotPassword
 
-import Connect
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle

@@ -1,8 +1,10 @@
 package com.gamefuse.app.api.model.response
 
+import com.google.gson.annotations.SerializedName
+
 data class ConversationModel(
-    val _id: String,
+    @SerializedName("_id")
+    val id: String,
     val users: List<User>,
-    val messages: List<MessageModel>,
-    val conversationId: String
+    val messages: List<String>,
 )
