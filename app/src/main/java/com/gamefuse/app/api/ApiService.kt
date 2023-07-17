@@ -51,5 +51,9 @@ interface ApiService {
     @GET("/me/conversations")
     suspend fun getConversations(@Header("Authorization") token: String): Response<List<ConversationModel>>
 
+    @Headers("Content-Type: application/json")
+    @GET("/me/conversations/{id}")
+    suspend fun getConversation(@Header("Authorization") token: String, @Path("id") conversationId: String): Response<ConversationModel>
+
 
 }
