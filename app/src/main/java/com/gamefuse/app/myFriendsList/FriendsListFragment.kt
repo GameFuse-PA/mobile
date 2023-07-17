@@ -24,16 +24,14 @@ import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.listInvitations.MyInvitations
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
-import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
 import com.gamefuse.app.searchFriend.SearchFriend
-import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
+class FriendsListFragment: Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -105,7 +103,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                    val adapter = FriendsAdapter(listFriends)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -130,38 +128,6 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
             }
         }
 
-    }
-
-    override fun deleteFriend(id: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
-                }
-                if (request.isSuccessful){
-                    reloadFragment()
-                    return@launch
-                }else{
-                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
-    }
-
-    override fun reloadFragment() {
-        val fragment = FriendsListFragment()
-
-        val fragmentManager = parentFragmentManager
-
-        val transaction = fragmentManager.beginTransaction()
-
-        transaction.replace(R.id.containerFragment, fragment)
-
-        transaction.addToBackStack(null)
-
-        transaction.commit()
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
