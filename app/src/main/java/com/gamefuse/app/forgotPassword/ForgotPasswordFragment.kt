@@ -1,6 +1,5 @@
 package com.gamefuse.app.forgotPassword
 
-import Connect
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.ForgotPassword
-import com.gamefuse.app.login.LoginActivity
 import com.gamefuse.app.register.RegisterActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
