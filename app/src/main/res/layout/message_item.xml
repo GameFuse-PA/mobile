@@ -1,0 +1,51 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="15dp"
+    android:background="@color/grey">
+
+
+    <ImageView
+        android:id="@+id/recipientAvatarImageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/recipientUsernameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:gravity="left"
+            android:layout_gravity="left"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="10dp"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/recipientMessageContentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:gravity="left"
+            android:layout_gravity="left"
+            android:layout_below="@+id/recipientUsernameTextView"
+            android:background="@android:color/transparent"
+            tools:ignore="RtlHardcoded" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

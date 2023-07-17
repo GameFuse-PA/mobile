@@ -1,5 +1,8 @@
-package com.gamefuse.app.myConversations
+package com.gamefuse.app.conversation
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.conversation.adapter.ConversationAdapter
+import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
+import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.gamefuse.app.myConversations.adapter.MyConversationsAdapter
+import com.gamefuse.app.register.RegisterActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversationClickListener {
+class ConversationFragment : Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val user = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -32,26 +40,27 @@ class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversatio
         savedInstanceState: Bundle?
     ): View? {
         return LayoutInflater.from(requireContext())
-            .inflate(R.layout.fragment_my_conversations, container, false)
+            .inflate(R.layout.fragment_login, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val conversationId = //TODO: récupérer la conversation id depuis la précédente activité
 
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
                 val response = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getConversations("Bearer " + user.access_token)
+                    ApiClient.apiService.getConversation("Bearer " + user.access_token, conversationId)
                 }
                 if (response.isSuccessful) {
-                    val conversations = response.body()
-                    if (conversations != null) {
-                        val adapter = MyConversationsAdapter(conversations, this@MyConversationsFragment)
+                    val conversation = response.body()
+                    if (conversation != null) {
+                        val adapter = ConversationAdapter(conversation.messages)
                         recyclerView.adapter = adapter
                     } else {
                         Toast.makeText(
@@ -84,8 +93,5 @@ class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversatio
         progressBar?.visibility = ProgressBar.GONE
     }
 
-    override fun onConversationClick(conversationId: String) {
-        println("coucou je vais etre redirigé vers la conversation dont l'id est " + conversationId)
-    }
 
 }

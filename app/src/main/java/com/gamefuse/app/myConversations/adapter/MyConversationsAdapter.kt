@@ -3,11 +3,8 @@ package com.gamefuse.app.myConversations.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
@@ -17,9 +14,9 @@ import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 
 
-class ConversationAdapter(private val conversations: List<ConversationModel>, private val onConversationClickListener: OnConversationClickListener
+class MyConversationsAdapter(private val conversations: List<ConversationModel>, private val onConversationClickListener: OnConversationClickListener
 ) :
-    RecyclerView.Adapter<ConversationAdapter.ConversationViewHolder>() {
+    RecyclerView.Adapter<MyConversationsAdapter.ConversationViewHolder>() {
     private val loggedUserInfos = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
 
     class ConversationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
