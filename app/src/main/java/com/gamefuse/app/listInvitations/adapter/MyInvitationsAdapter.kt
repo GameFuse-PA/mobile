@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.R
 import com.gamefuse.app.listInvitations.dto.MyInvitationsDto
-import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import java.io.IOException
@@ -44,20 +43,20 @@ class MyInvitationsAdapter(private val invitations: MutableList<MyInvitationsDto
             val positiveButton = { _: DialogInterface, _: Int -> print("")}
             val negativeButton = { _: DialogInterface, _: Int -> print("")}
             val builder = AlertDialog.Builder(holder.itemView.context)
-            builder.setTitle("Ajout d'un ami")
-            builder.setMessage("Voulez-vous vraiment accepter l'invitation de " + invitation.username + " ?")
-            builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
-            builder.setNegativeButton("Non", negativeButton)
+            builder.setTitle(holder.itemView.resources.getString(R.string.add_friend))
+            builder.setMessage(holder.itemView.resources.getString(R.string.accept_invite, invitation.username))
+            builder.setPositiveButton(holder.itemView.resources.getString(R.string.yes), DialogInterface.OnClickListener(function = positiveButton))
+            builder.setNegativeButton(holder.itemView.resources.getString(R.string.no), negativeButton)
             builder.show()
         }
         holder.refuseInvite.setOnClickListener {
             val positiveButton = { _: DialogInterface, _: Int -> print("")}
             val negativeButton = { _: DialogInterface, _: Int -> print("")}
             val builder = AlertDialog.Builder(holder.itemView.context)
-            builder.setTitle("Ajout d'un ami")
-            builder.setMessage("Voulez-vous vraiment refuser l'invitation de " + invitation.username + " ?")
-            builder.setPositiveButton("Oui", DialogInterface.OnClickListener(function = positiveButton))
-            builder.setNegativeButton("Non", negativeButton)
+            builder.setTitle(holder.itemView.resources.getString(R.string.add_friend))
+            builder.setMessage(holder.itemView.resources.getString(R.string.refuse_invite, invitation.username))
+            builder.setPositiveButton(holder.itemView.resources.getString(R.string.yes), DialogInterface.OnClickListener(function = positiveButton))
+            builder.setNegativeButton(holder.itemView.resources.getString(R.string.no), negativeButton)
             builder.show()
         }
 
@@ -83,7 +82,7 @@ class MyInvitationsAdapter(private val invitations: MutableList<MyInvitationsDto
                     ).into(holder.profilPic)
                 }
             } catch (e: IOException) {
-                Toast.makeText(holder.itemView.context, "Erreur lors du chargement de l'image", Toast.LENGTH_LONG).show()
+                Toast.makeText(holder.itemView.context, holder.itemView.resources.getString(R.string.error_picture), Toast.LENGTH_LONG).show()
             }
         }
 

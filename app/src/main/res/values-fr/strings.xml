@@ -41,4 +41,11 @@
     <string name="my_invitations">Mes Invitations</string>
     <string name="no_invitations_text">Vous n\'avez pas d\'invitations en attente</string>
     <string name="manage_invitation_image">Image accepter/refuser invit</string>
+    <string name="error_get_friend_request">Nous ne pouvons pas récupérer vos invitations</string>
+    <string name="add_friend">Ajout d\'un ami</string>
+    <string name="accept_invite">Voulez-vous accepter l\'invitation de %1$s ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="refuse_invite">Voulez-vous vraiment refuser l\'invitation de %1$s ?</string>
+    <string name="error_picture">Impossible de charger l\'image</string>
 </resources>

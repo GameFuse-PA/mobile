@@ -37,8 +37,15 @@
     <string name="no_results_search">No results found for search: %1$s</string>
     <string name="search_friend_header">Search Friend</string>
     <string name="quit_activity_logo">Quit activity pic</string>
-    <string name="my_invitations">My Invitations</string>
-    <string name="no_invitations_text">You have no invitations yet</string>
+    <string name="my_invitations">My Friends requests</string>
+    <string name="no_invitations_text">You have no friends requests yet</string>
     <string name="manage_invitation_image">Invitation accept/refuse pic</string>
+    <string name="error_get_friend_request">Impossible to get your friends requests</string>
+    <string name="add_friend">Add friend</string>
+    <string name="accept_invite">Do you want to accept invite of %1$s ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="refuse_invite">Do you want to refuse invite of %1$s ?</string>
+    <string name="error_picture">Impossible to load picture</string>
 
 </resources>

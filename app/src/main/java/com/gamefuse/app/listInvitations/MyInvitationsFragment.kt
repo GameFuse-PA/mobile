@@ -34,6 +34,9 @@ class MyInvitationsFragment : Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private val listInvitations: MutableList<MyInvitationsDto> = mutableListOf()
+    private lateinit var textNoInvitations: TextView
+    private lateinit var quitButton: ImageView
 
 
     override fun onCreateView(
@@ -52,9 +55,8 @@ class MyInvitationsFragment : Fragment() {
                 DividerItemDecoration.VERTICAL)
         )
 
-        val listInvitations: MutableList<MyInvitationsDto> = mutableListOf()
-        val textNoInvitations: TextView = view.findViewById(R.id.empty_list_text)
-        val quitButton = view.findViewById<ImageView>(R.id.cross_quit_invitations)
+        textNoInvitations = view.findViewById(R.id.empty_list_text)
+        quitButton = view.findViewById(R.id.cross_quit_invitations)
 
         quitButton.setOnClickListener {
             activity?.finish()
@@ -62,14 +64,14 @@ class MyInvitationsFragment : Fragment() {
 
         textNoInvitations.visibility = View.INVISIBLE
 
-        getInvitations(listInvitations, textNoInvitations, recyclerView)
+        getInvitations(recyclerView)
 
         return view
 
     }
 
 
-    private fun getInvitations(listInvitations: MutableList<MyInvitationsDto>, emptyList: TextView, recyclerView: RecyclerView) {
+    private fun getInvitations(recyclerView: RecyclerView) {
 
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
@@ -80,7 +82,7 @@ class MyInvitationsFragment : Fragment() {
                 if (response.isSuccessful) {
                     val invitations = response.body()
                     if (invitations.isNullOrEmpty()) {
-                        emptyList.visibility = View.VISIBLE
+                        textNoInvitations.visibility = View.VISIBLE
                         stopLoading()
                         return@launch
                     }
@@ -92,7 +94,7 @@ class MyInvitationsFragment : Fragment() {
                         listInvitations.add(MyInvitationsDto(invitation.sender.id, invitation.sender.username, image))
                     }
                     if (listInvitations.isEmpty()) {
-                        emptyList.visibility = View.VISIBLE
+                        textNoInvitations.visibility = View.VISIBLE
                         stopLoading()
                         return@launch
                     }
@@ -112,7 +114,7 @@ class MyInvitationsFragment : Fragment() {
                     stopLoading()
                 }else{
                     stopLoading()
-                    Toast.makeText(context, "Impossible de récupérer vos invitations", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.error_get_friend_request), Toast.LENGTH_LONG).show()
                 }
             }catch (e: Exception){
                 stopLoading()
