@@ -2,9 +2,9 @@ package com.gamefuse.app.api.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ConversationModel(
+data class ConversationModelWithMessages(
     @SerializedName("_id")
     val id: String,
     val users: List<User>,
-    val messages: List<String>,
+    val messages: List<MessageModel>,
 )

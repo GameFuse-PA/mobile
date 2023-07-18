@@ -1,8 +1,5 @@
 package com.gamefuse.app.conversation
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,13 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
-import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.conversation.adapter.ConversationAdapter
-import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
-import com.gamefuse.app.myConversations.MyConversationsActivity
-import com.gamefuse.app.myConversations.adapter.MyConversationsAdapter
-import com.gamefuse.app.register.RegisterActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,10 +41,10 @@ class ConversationFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val conversationId = arguments?.getInt("conversationId", -1) ?: -1//TODO: récupérer la conversation id depuis la précédente activité
+        val conversationId = requireActivity().intent.getStringExtra("conversationId");//TODO: récupérer la conversation id depuis la précédente activité
 
-        Toast.makeText(context, conversationId, Toast.LENGTH_LONG).show()
-        /*CoroutineScope(Dispatchers.Main).launch {
+        println("ma conv id : " + conversationId)
+        CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
                 val response = withContext(Dispatchers.IO) {
@@ -83,7 +75,7 @@ class ConversationFragment : Fragment() {
             } finally {
                 stopLoading()
             }
-        }*/
+        }
     }
 
     private fun startLoading() {

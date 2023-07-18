@@ -3,7 +3,8 @@ package com.gamefuse.app.api
 import com.gamefuse.app.api.model.request.ForgotPassword
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.request.RegisterUser
-import com.gamefuse.app.api.model.response.ConversationModel
+import com.gamefuse.app.api.model.response.ConversationModelWithMessages
+import com.gamefuse.app.api.model.response.ConversationModelWithoutMessages
 import com.gamefuse.app.api.model.response.FriendsListResponse
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.ResponseAPISuccess
@@ -49,11 +50,11 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @GET("/me/conversations")
-    suspend fun getConversations(@Header("Authorization") token: String): Response<List<ConversationModel>>
+    suspend fun getConversations(@Header("Authorization") token: String): Response<List<ConversationModelWithoutMessages>>
 
     @Headers("Content-Type: application/json")
     @GET("/me/conversations/{id}")
-    suspend fun getConversation(@Header("Authorization") token: String, @Path("id") conversationId: String): Response<ConversationModel>
+    suspend fun getConversation(@Header("Authorization") token: String, @Path("id") conversationId: String): Response<ConversationModelWithMessages>
 
 
 }
