@@ -8,7 +8,7 @@ class ConversationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_conversation)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.containerFragment, ConversationFragment())

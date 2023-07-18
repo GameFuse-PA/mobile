@@ -40,7 +40,7 @@ class ConversationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return LayoutInflater.from(requireContext())
-            .inflate(R.layout.fragment_login, container, false)
+            .inflate(R.layout.fragment_conversation, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,13 +49,14 @@ class ConversationFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val conversationId = //TODO: récupérer la conversation id depuis la précédente activité
+        val conversationId = arguments?.getInt("conversationId", -1) ?: -1//TODO: récupérer la conversation id depuis la précédente activité
 
-        CoroutineScope(Dispatchers.Main).launch {
+        Toast.makeText(context, conversationId, Toast.LENGTH_LONG).show()
+        /*CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
                 val response = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getConversation("Bearer " + user.access_token, conversationId)
+                    ApiClient.apiService.getConversation("Bearer " + user.access_token, conversationId.toString())
                 }
                 if (response.isSuccessful) {
                     val conversation = response.body()
@@ -82,7 +83,7 @@ class ConversationFragment : Fragment() {
             } finally {
                 stopLoading()
             }
-        }
+        }*/
     }
 
     private fun startLoading() {

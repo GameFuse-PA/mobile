@@ -1,5 +1,6 @@
 package com.gamefuse.app.myConversations
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,9 @@ import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.conversation.ConversationActivity
 import com.gamefuse.app.myConversations.adapter.MyConversationsAdapter
+import com.gamefuse.app.register.RegisterActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +88,9 @@ class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversatio
     }
 
     override fun onConversationClick(conversationId: String) {
-        println("coucou je vais etre redirigé vers la conversation dont l'id est " + conversationId)
+        val intent = Intent(requireContext(), ConversationActivity::class.java)
+        intent.putExtra("conversationId", conversationId)
+        startActivity(intent)
     }
 
 }
