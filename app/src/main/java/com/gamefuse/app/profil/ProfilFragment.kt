@@ -65,10 +65,6 @@ class ProfilFragment: Fragment() {
             activity?.finish()
         }
 
-        saveButton.setOnClickListener {
-            saveChanges(firstname.text.toString(), lastname.text.toString(), email.text.toString(), birthdate.text.toString())
-        }
-
 
         return view
     }
@@ -105,9 +101,6 @@ class ProfilFragment: Fragment() {
         }
 
     }
-
-
-    private fun saveChanges(firstname: String, lastname: String, email: String, birthdate: String) {}
 
 
 }
