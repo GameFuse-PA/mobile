@@ -3,6 +3,8 @@ package com.gamefuse.app.api.model.response
 import com.google.gson.annotations.SerializedName
 
 data class Avatar(
+    @SerializedName("_id")
+    val id: String,
     var location: String,
 )
 

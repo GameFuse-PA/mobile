@@ -50,9 +50,12 @@ class ConversationFragment : Fragment() {
                 val response = withContext(Dispatchers.IO) {
                     ApiClient.apiService.getConversation("Bearer " + user.access_token, conversationId.toString())
                 }
+                println(response)
                 if (response.isSuccessful) {
                     val conversation = response.body()
+                    println("display conv : " + conversation)
                     if (conversation != null) {
+                        println("coucou" + conversation)
                         val adapter = ConversationAdapter(conversation.messages)
                         recyclerView.adapter = adapter
                     } else {
