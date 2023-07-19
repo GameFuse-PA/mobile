@@ -41,7 +41,7 @@ class ConversationFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val conversationId = requireActivity().intent.getStringExtra("conversationId");//TODO: récupérer la conversation id depuis la précédente activité
+        val conversationId = requireActivity().intent.getStringExtra("conversationId");
 
         println("ma conv id : " + conversationId)
         CoroutineScope(Dispatchers.Main).launch {

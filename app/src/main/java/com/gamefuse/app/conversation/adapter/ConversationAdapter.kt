@@ -38,7 +38,7 @@ class ConversationAdapter(private val messages: List<MessageModel>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.conversation_item, parent, false)
+            .inflate(R.layout.my_message_item, parent, false)
         println("j'affiche l'item " + itemView)
         //TODO: voir comment checker si c'est mon message ou non
         return MyMessageViewHolder(itemView)
