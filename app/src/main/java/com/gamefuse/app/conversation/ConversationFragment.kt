@@ -93,3 +93,6 @@ class ConversationFragment : Fragment() {
 
 
 }
+
+
+https://github.com/heyletscode/Chat-App-In-Android-And-NodeJS-Using-WebSockets/blob/master/AndroidApp/app/src/main/java/com/heyletscode/chattutorial/ChatActivity.java#L49
