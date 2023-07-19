@@ -38,5 +38,6 @@
     <string name="search_friend_header">Search Friend</string>
     <string name="quit_activity_logo">Quit activity pic</string>
     <string name="my_conversations">My conversations</string>
+    <string name="conversation_title">Conversation with</string>
 
 </resources>

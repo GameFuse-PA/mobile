@@ -13,6 +13,7 @@ import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.api.model.response.MessageModel
 import com.gamefuse.app.conversation.adapter.ConversationAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -56,12 +57,13 @@ class ConversationFragment : Fragment() {
                     println("display conv : " + conversation)
                     if (conversation != null) {
                         println("coucou" + conversation)
-                        val adapter = ConversationAdapter(conversation.messages)
+                        val adapter = ConversationAdapter(conversation.messages as MutableList<MessageModel>, recyclerView)
                         recyclerView.adapter = adapter
+                        adapter.scrollToBottom()
                     } else {
                         Toast.makeText(
                             context,
-                            "Vous n'avez aucune conversation.",
+                            "Erreur lors de la récupération des conversations.",
                             Toast.LENGTH_LONG
                         ).show()
                     }

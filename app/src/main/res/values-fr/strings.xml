@@ -39,4 +39,6 @@
     <string name="search_friend_header">Rechercher un ami</string>
     <string name="quit_activity_logo">Quitter l\'activité</string>
     <string name="my_conversations">Mes conversations</string>
+    <string name="conversation_title">Conversation avec</string>
+
 </resources>
