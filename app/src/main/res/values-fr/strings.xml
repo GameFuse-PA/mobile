@@ -38,4 +38,8 @@
     <string name="no_results_search">Aucun résultats trouvés pour la recherche: %1$s</string>
     <string name="search_friend_header">Rechercher un ami</string>
     <string name="quit_activity_logo">Quitter l\'activité</string>
+    <string name="birthdate">Date de naissance</string>
+    <string name="firstname">Prénom</string>
+    <string name="lastname">Nom de famille</string>
+    <string name="save">Enregistrer</string>
 </resources>

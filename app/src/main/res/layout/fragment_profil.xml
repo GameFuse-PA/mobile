@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/primary"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/header_listFriends">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_center_header"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:text="@string/my_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
+            android:layout_marginStart="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header_listFriends"
+        app:layout_constraintBottom_toTopOf="@id/footer_my_friends"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/guideline_center"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/size_element_start"
+            app:layout_constraintGuide_percent="0.15"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/size_element_end"
+            app:layout_constraintGuide_percent="0.85"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/guideline_center_horizontale"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_profil"
+            app:layout_constraintStart_toStartOf="@id/guideline_center"
+            app:layout_constraintEnd_toEndOf="@id/guideline_center"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/infos_profil"
+            app:layout_constraintStart_toStartOf="@id/size_element_start"
+            app:layout_constraintEnd_toEndOf="@id/size_element_end"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_horizontale"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_horizontale"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/firstname"
+                android:padding="15dp"
+                android:hint="@string/firstname"
+                android:background="@drawable/custom_radius_grey_minor_radius"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="15dp"
+                android:id="@+id/lastname"
+                android:hint="@string/lastname"
+                android:background="@drawable/custom_radius_grey_minor_radius"
+                app:layout_constraintTop_toBottomOf="@id/firstname"
+                android:layout_marginTop="35dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="15dp"
+                android:id="@+id/email"
+                android:hint="@string/e_mail"
+                android:background="@drawable/custom_radius_grey_minor_radius"
+                app:layout_constraintTop_toBottomOf="@id/lastname"
+                android:layout_marginTop="35dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="15dp"
+                android:id="@+id/birthdate"
+                android:hint="@string/birthdate"
+                android:background="@drawable/custom_radius_grey_minor_radius"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                android:layout_marginTop="35dp"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textViewError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/red"
+            app:layout_constraintTop_toBottomOf="@id/infos_profil"
+            app:layout_constraintStart_toStartOf="@id/size_element_start"
+            app:layout_constraintEnd_toEndOf="@id/size_element_end"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/custom_radius_green_minor_radius"
+            app:layout_constraintStart_toStartOf="@id/size_element_start"
+            app:layout_constraintEnd_toEndOf="@id/size_element_end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp"
+            android:id="@+id/save_changes"
+            android:text="@string/save"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/primary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/footer_my_friends">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6"
+            android:id="@+id/guideline_middle_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15"
+            android:id="@+id/guideline_first_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            android:id="@+id/guideline_second_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85"
+            android:id="@+id/guideline_third_footer"/>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/my_friends_section"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_first_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_first_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/list_friends_not_focus_icon_footer"
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_friends" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="@string/my_friends"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/ranking_section"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_second_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_second_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/trophy_not_focus_icon_footer"
+                android:layout_weight="0.35"
+                android:contentDescription="@string/ranking" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="@string/ranking"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/profil_section"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/profil_icon_footer"
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_profile" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="@string/my_profile"/>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

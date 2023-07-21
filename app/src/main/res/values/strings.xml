@@ -27,7 +27,7 @@
     <string name="subscribe">Subscribe</string>
     <string name="no_friends_text">You have no friends yet 🥹</string>
     <string name="my_friends">My Friends</string>
-    <string name="my_profile">My Profile</string>
+    <string name="my_profile">My profile</string>
     <string name="username">Username</string>
     <string name="add_friends">Add friends</string>
     <string name="ranking">Ranking</string>
@@ -37,5 +37,9 @@
     <string name="no_results_search">No results found for search: %1$s</string>
     <string name="search_friend_header">Search Friend</string>
     <string name="quit_activity_logo">Quit activity pic</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="save">Save</string>
 
 </resources>
