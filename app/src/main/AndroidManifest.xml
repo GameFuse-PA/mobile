@@ -20,6 +20,9 @@
             android:name=".listInvitations.MyInvitations"
             android:exported="false" />
         <activity
+            android:name=".profil.ProfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".myFriendsList.FriendsListActivity"
             android:exported="true" />
         <activity
