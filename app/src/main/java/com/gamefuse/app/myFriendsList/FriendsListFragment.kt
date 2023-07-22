@@ -21,6 +21,7 @@ import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.listInvitations.MyInvitations
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.profil.ProfilActivity
@@ -52,6 +53,7 @@ class FriendsListFragment: Fragment() {
                 DividerItemDecoration.VERTICAL)
         )
         val searchFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
+        val invitationsButton = view.findViewById<ImageView>(R.id.my_invitations)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
@@ -65,6 +67,10 @@ class FriendsListFragment: Fragment() {
 
         searchFriendButton.setOnClickListener {
             val intent = Intent(requireContext(), SearchFriend::class.java)
+            startActivity(intent)
+        }
+        invitationsButton.setOnClickListener {
+            val intent = Intent(requireContext(), MyInvitations::class.java)
             startActivity(intent)
         }
 
