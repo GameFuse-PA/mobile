@@ -84,7 +84,7 @@ class ProfilFragment: Fragment() {
 
         if (userObject.user.birthdate != null){
             try {
-                birthdate.hint = LocalDate.parse(userObject.user.birthdate.split('T')[0]).toString()
+                birthdate.hint = LocalDate.parse(userObject.user.birthdate.split('T')[0]).format(pattern).toString()
             }catch (e: Exception){
                 birthdate.hint = getString(R.string.birthdate)
             }
