@@ -72,6 +72,7 @@ class FriendsListFragment: Fragment() {
         invitationsButton.setOnClickListener {
             val intent = Intent(requireContext(), MyInvitations::class.java)
             startActivity(intent)
+            activity?.finish()
         }
 
         myProfilSection.setOnClickListener{

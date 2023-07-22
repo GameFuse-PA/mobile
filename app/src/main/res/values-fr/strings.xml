@@ -52,4 +52,6 @@
     <string name="no">Non</string>
     <string name="refuse_invite">Voulez-vous vraiment refuser l\'invitation de %1$s ?</string>
     <string name="error_picture">Impossible de charger l\'image</string>
+    <string name="invite_accepted">Invitation acceptée</string>
+    <string name="invite_refused">Invitation refusée</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.gamefuse.app.listInvitations
 
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.gamefuse.app.api.model.response.InvitationsResponse
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.listInvitations.adapter.MyInvitationsAdapter
 import com.gamefuse.app.listInvitations.dto.MyInvitationsDto
+import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
@@ -59,6 +61,8 @@ class MyInvitationsFragment : Fragment() {
         quitButton = view.findViewById(R.id.cross_quit_invitations)
 
         quitButton.setOnClickListener {
+            val intent = Intent(requireContext(), FriendsListActivity::class.java)
+            startActivity(intent)
             activity?.finish()
         }
 
