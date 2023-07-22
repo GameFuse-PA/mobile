@@ -25,6 +25,7 @@ import com.gamefuse.app.listInvitations.adapter.MyInvitationsAdapter
 import com.gamefuse.app.listInvitations.dto.MyInvitationsDto
 import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
+import com.gamefuse.app.profil.ProfilActivity
 import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +38,7 @@ class MyInvitationsFragment : Fragment() {
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
     private val listInvitations: MutableList<MyInvitationsDto> = mutableListOf()
+    private lateinit var profileSection: View
     private lateinit var textNoInvitations: TextView
     private lateinit var quitButton: ImageView
 
@@ -59,9 +61,15 @@ class MyInvitationsFragment : Fragment() {
 
         textNoInvitations = view.findViewById(R.id.empty_list_text)
         quitButton = view.findViewById(R.id.cross_quit_invitations)
+        profileSection = view.findViewById(R.id.profil_section)
 
         quitButton.setOnClickListener {
             val intent = Intent(requireContext(), FriendsListActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+        profileSection.setOnClickListener{
+            val intent = Intent(requireContext(), ProfilActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
