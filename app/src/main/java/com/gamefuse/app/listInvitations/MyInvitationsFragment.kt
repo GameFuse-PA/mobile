@@ -1,10 +1,9 @@
-package com.gamefuse.app.myFriendsList
+package com.gamefuse.app.listInvitations
 
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,31 +19,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.response.InvitationsResponse
 import com.gamefuse.app.api.model.response.LoginResponse
-import com.gamefuse.app.listInvitations.MyInvitations
-import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
+import com.gamefuse.app.listInvitations.adapter.MyInvitationsAdapter
+import com.gamefuse.app.listInvitations.dto.MyInvitationsDto
+import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.profil.ProfilActivity
-import com.gamefuse.app.searchFriend.SearchFriend
+import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment() {
+class MyInvitationsFragment : Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    private val listInvitations: MutableList<MyInvitationsDto> = mutableListOf()
+    private lateinit var profileSection: View
+    private lateinit var textNoInvitations: TextView
+    private lateinit var quitButton: ImageView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_list_friends, container, false)
+        val view = inflater.inflate(R.layout.fragment_list_invitations, container, false)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.list_friends)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list_invitations)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.addItemDecoration(
@@ -52,69 +58,59 @@ class FriendsListFragment: Fragment() {
                 requireContext(),
                 DividerItemDecoration.VERTICAL)
         )
-        val searchFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
-        val invitationsButton = view.findViewById<ImageView>(R.id.my_invitations)
 
-        val listFriends: MutableList<ListFriendsDto> = mutableListOf()
+        textNoInvitations = view.findViewById(R.id.empty_list_text)
+        quitButton = view.findViewById(R.id.cross_quit_invitations)
+        profileSection = view.findViewById(R.id.profil_section)
 
-        val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
-        val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
-
-        val myProfilSection = view.findViewById<View>(R.id.profil_section)
-
-        imageNoFriends.visibility = View.INVISIBLE
-        textNoFriends.visibility = View.INVISIBLE
-
-        searchFriendButton.setOnClickListener {
-            val intent = Intent(requireContext(), SearchFriend::class.java)
-            startActivity(intent)
-        }
-        invitationsButton.setOnClickListener {
-            val intent = Intent(requireContext(), MyInvitations::class.java)
+        quitButton.setOnClickListener {
+            val intent = Intent(requireContext(), FriendsListActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
-
-        myProfilSection.setOnClickListener{
+        profileSection.setOnClickListener{
             val intent = Intent(requireContext(), ProfilActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
 
-        getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
+        textNoInvitations.visibility = View.INVISIBLE
+
+        getInvitations(recyclerView)
 
         return view
 
     }
 
-    private fun getFriends(listFriends: MutableList<ListFriendsDto>, imageNoFriends: ImageView, textNoFriends: TextView, recyclerView: RecyclerView){
+
+    private fun getInvitations(recyclerView: RecyclerView) {
 
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
-
             try {
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getFriends("Bearer " + token.access_token)
+                val response = withContext(Dispatchers.IO) {
+                    ApiClient.apiService.getInvitations("Bearer " + token.access_token)
                 }
-                if (request.isSuccessful) {
-                    val obj = request.body()?.friends
-                    if (obj.isNullOrEmpty()){
-                        imageNoFriends.visibility = View.VISIBLE
-                        textNoFriends.visibility = View.VISIBLE
+                if (response.isSuccessful) {
+                    val invitations = response.body()
+                    if (invitations.isNullOrEmpty()) {
+                        textNoInvitations.visibility = View.VISIBLE
+                        stopLoading()
                         return@launch
                     }
-
-                    for (friend in obj){
-                        val image: String = if (friend.avatar != null){
-                            friend.avatar!!.location
-                        }else{
-                            "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                    for (invitation in invitations) {
+                        if (invitation.sender.id == token.user._id){
+                            continue
                         }
-                        imageNoFriends.visibility = View.INVISIBLE
-                        textNoFriends.visibility = View.INVISIBLE
-                        listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
+                        val image = invitation.sender.avatar?.location
+                        listInvitations.add(MyInvitationsDto(invitation.sender.id, invitation.sender.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends)
+                    if (listInvitations.isEmpty()) {
+                        textNoInvitations.visibility = View.VISIBLE
+                        stopLoading()
+                        return@launch
+                    }
+                    val adapter = MyInvitationsAdapter(listInvitations)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -130,16 +126,17 @@ class FriendsListFragment: Fragment() {
                     stopLoading()
                 }else{
                     stopLoading()
-                    Toast.makeText(context, "Impossible de récupérer vos amis", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.error_get_friend_request), Toast.LENGTH_LONG).show()
                 }
             }catch (e: Exception){
                 stopLoading()
                 Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_LONG).show()
-                e.message?.let { Log.e("Erreur requête", it) }
             }
+
         }
 
     }
+
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
@@ -151,5 +148,6 @@ class FriendsListFragment: Fragment() {
     private fun stopLoading() {
         progressBar?.visibility = ProgressBar.GONE
     }
+
 
 }

@@ -27,7 +27,7 @@
     <string name="subscribe">Subscribe</string>
     <string name="no_friends_text">You have no friends yet 🥹</string>
     <string name="my_friends">My Friends</string>
-    <string name="my_profile">My Profile</string>
+    <string name="my_profile">My profile</string>
     <string name="username">Username</string>
     <string name="add_friends">Add friends</string>
     <string name="ranking">Ranking</string>
@@ -37,5 +37,21 @@
     <string name="no_results_search">No results found for search: %1$s</string>
     <string name="search_friend_header">Search Friend</string>
     <string name="quit_activity_logo">Quit activity pic</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="save">Save</string>
+    <string name="my_invitations">My Friends requests</string>
+    <string name="no_invitations_text">You have no friends requests yet</string>
+    <string name="manage_invitation_image">Invitation accept/refuse pic</string>
+    <string name="error_get_friend_request">Impossible to get your friends requests</string>
+    <string name="add_friend">Add friend</string>
+    <string name="accept_invite">Do you want to accept invite of %1$s ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="refuse_invite">Do you want to refuse invite of %1$s ?</string>
+    <string name="error_picture">Impossible to load picture</string>
+    <string name="invite_accepted">Friend request accepted</string>
+    <string name="invite_refused">Friend request refused</string>
 
 </resources>
