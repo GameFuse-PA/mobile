@@ -134,6 +134,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="75dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:indeterminateTintMode="src_in"
+            app:layout_constraintTop_toTopOf="@id/textViewError"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"/>
+
+
         <TextView
             android:id="@+id/textViewError"
             android:layout_width="0dp"

@@ -4,11 +4,13 @@ import com.gamefuse.app.api.model.request.ForgotPassword
 import com.gamefuse.app.api.model.request.Invitations
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.request.RegisterUser
+import com.gamefuse.app.api.model.request.UpdateProfil
 import com.gamefuse.app.api.model.response.FriendsListResponse
 import com.gamefuse.app.api.model.response.InvitationsResponse
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.ResponseAPISuccess
 import com.gamefuse.app.api.model.response.SearchUsersResponse
+import com.gamefuse.app.api.model.response.UpdateProfilResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -18,6 +20,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.DELETE
+import retrofit2.http.PUT
 
 interface ApiService {
 
@@ -57,6 +60,11 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("/invitations/refuse")
     suspend fun refuseInvitation(@Header("Authorization") token: String, @Body data: Invitations): Response<ResponseAPISuccess>
+
+
+    @Headers("Content-Type: application/json")
+    @PUT("/me")
+    suspend fun updateProfile(@Header("Authorization") token: String, @Body data: UpdateProfil): Response<UpdateProfilResponse>
 
 
 }
