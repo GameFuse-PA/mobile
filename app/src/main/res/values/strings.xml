@@ -51,5 +51,7 @@
     <string name="no">No</string>
     <string name="refuse_invite">Do you want to refuse invite of %1$s ?</string>
     <string name="error_picture">Impossible to load picture</string>
+    <string name="invite_accepted">Friend request accepted</string>
+    <string name="invite_refused">Friend request refused</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.gamefuse.app.api
 
 import com.gamefuse.app.api.model.request.ForgotPassword
+import com.gamefuse.app.api.model.request.Invitations
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.api.model.request.RegisterUser
 import com.gamefuse.app.api.model.request.UpdateProfil
@@ -51,6 +52,15 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @DELETE("/friends/{id}")
     suspend fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Response<ResponseAPISuccess>
+
+    @Headers("Content-Type: application/json")
+    @POST("/invitations/accept")
+    suspend fun acceptInvitation(@Header("Authorization") token: String, @Body data: Invitations): Response<ResponseAPISuccess>
+
+    @Headers("Content-Type: application/json")
+    @POST("/invitations/refuse")
+    suspend fun refuseInvitation(@Header("Authorization") token: String, @Body data: Invitations): Response<ResponseAPISuccess>
+
 
     @Headers("Content-Type: application/json")
     @PUT("/me")
