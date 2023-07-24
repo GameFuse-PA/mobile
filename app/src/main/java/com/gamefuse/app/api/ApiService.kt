@@ -9,6 +9,7 @@ import com.gamefuse.app.api.model.response.FriendsListResponse
 import com.gamefuse.app.api.model.response.InvitationsResponse
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.ResponseAPISuccess
+import com.gamefuse.app.api.model.response.ScoreboardData
 import com.gamefuse.app.api.model.response.SearchUsersResponse
 import com.gamefuse.app.api.model.response.UpdateProfilResponse
 import retrofit2.Response
@@ -66,5 +67,7 @@ interface ApiService {
     @PUT("/me")
     suspend fun updateProfile(@Header("Authorization") token: String, @Body data: UpdateProfil): Response<UpdateProfilResponse>
 
+    @GET("/scoreboards/friends")
+    suspend fun getScoreBoard(@Header("Authorization") token: String): Response<List<ScoreboardData>>
 
 }

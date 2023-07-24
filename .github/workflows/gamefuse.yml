@@ -2,9 +2,9 @@ name: CI GameFuse Mobile App
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "develop", "feature/*", "hotfix/*" ]
+    branches: [ "main", "develop" ]
   workflow_dispatch:
 
 jobs:

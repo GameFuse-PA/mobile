@@ -53,5 +53,6 @@
     <string name="error_picture">Impossible to load picture</string>
     <string name="invite_accepted">Friend request accepted</string>
     <string name="invite_refused">Friend request refused</string>
+    <string name="score_board">Scoreboard</string>
 
 </resources>

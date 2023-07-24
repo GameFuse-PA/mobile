@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +26,7 @@ import com.gamefuse.app.listInvitations.MyInvitations
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
 import com.gamefuse.app.profil.ProfilActivity
+import com.gamefuse.app.ranking.RankingActivity
 import com.gamefuse.app.searchFriend.SearchFriend
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +64,8 @@ class FriendsListFragment: Fragment() {
 
         val myProfilSection = view.findViewById<View>(R.id.profil_section)
 
+        val rankingSection = view.findViewById<LinearLayout>(R.id.ranking_section)
+
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
 
@@ -80,6 +84,13 @@ class FriendsListFragment: Fragment() {
             startActivity(intent)
             activity?.finish()
         }
+
+        rankingSection.setOnClickListener {
+            val intent = Intent(requireContext(), RankingActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
 
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 
