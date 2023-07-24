@@ -11,7 +11,7 @@ import com.gamefuse.app.api.model.response.ScoreboardData
 import com.squareup.picasso.Picasso
 
 
-class RankingAdapter(private val scores: List<ScoreboardData>):
+class RankingAdapter(private val scores: List<ScoreboardData>) :
     RecyclerView.Adapter<RankingAdapter.RankingViewHolder>() {
 
     private val sortedScores: List<ScoreboardData> = scores.sortedByDescending { scoreboardData ->
@@ -22,7 +22,7 @@ class RankingAdapter(private val scores: List<ScoreboardData>):
         val avatarImageView: ImageView = itemView.findViewById(R.id.avatarImageView)
         val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
         val scoreTextView: TextView = itemView.findViewById(R.id.scoreTextView)
-        val iconTextView: TextView = itemView.findViewById(R.id.iconTextView)
+        val iconImageView: ImageView = itemView.findViewById(R.id.imageViewTrophee)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankingViewHolder {
@@ -30,6 +30,7 @@ class RankingAdapter(private val scores: List<ScoreboardData>):
             .inflate(R.layout.ranking_component, parent, false)
         return RankingViewHolder(itemView)
     }
+
     override fun onBindViewHolder(holder: RankingViewHolder, position: Int) {
         val player = scores[position]
         player.let {
@@ -39,14 +40,12 @@ class RankingAdapter(private val scores: List<ScoreboardData>):
 
             holder.usernameTextView.text = player.username
             holder.scoreTextView.text = player.scores.size.toString()
-            if(position == 0) {
-                holder.iconTextView.text = //TODO : icone dorée
-            } else if (position == 1){
-                holder.iconTextView.text = //TODO: icone argentée
-            } else if(position == 2) {
-                holder.iconTextView.text = //TODO : icone bronze
-            } else {
-                holder.iconTextView.text = //TODO : icone neutre
+            if (position == 0) {
+                holder.iconImageView.setImageResource(R.drawable.coupe_or)
+            } else if (position == 1) {
+                holder.iconImageView.setImageResource(R.drawable.coupe__argent)
+            } else if (position == 2) {
+                holder.iconImageView.setImageResource(R.drawable.coupe_bronze)
             }
 
         }

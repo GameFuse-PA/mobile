@@ -28,7 +28,6 @@ class RankingFragment : Fragment() {
     private var progressBar: ProgressBar? = null
 
     private val user = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
-    val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +42,8 @@ class RankingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
-    private fun getRanking() {
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
@@ -70,6 +68,7 @@ class RankingFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.api_error), Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun startLoading() {
