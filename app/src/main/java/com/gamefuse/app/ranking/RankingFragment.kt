@@ -43,14 +43,13 @@ class RankingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
                 val response =
                     withContext(Dispatchers.IO) { ApiClient.apiService.getScoreBoard("Bearer " + user.access_token) }
                 if (response.isSuccessful) {
-                    println(response)
+                    println(response.body())
                     println("classement reçu")
                     val ranking = response.body()
                     if(ranking != null) {

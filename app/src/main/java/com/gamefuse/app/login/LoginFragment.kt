@@ -14,6 +14,7 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
+import com.gamefuse.app.listInvitations.MyInvitations
 import com.gamefuse.app.register.RegisterActivity
 import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.ranking.RankingActivity
@@ -92,6 +93,7 @@ class LoginFragment : Fragment() {
                 val response = withContext(Dispatchers.IO) { ApiClient.apiService.login(request) }
 
                 if (response.isSuccessful && response.body() != null) {
+                    println("logged in")
                     Connect.authToken = Gson().toJson(response.body())
                     val intent = Intent(context, RankingActivity::class.java)
                     startActivity(intent)
