@@ -67,7 +67,7 @@ interface ApiService {
     @PUT("/me")
     suspend fun updateProfile(@Header("Authorization") token: String, @Body data: UpdateProfil): Response<UpdateProfilResponse>
 
-    @GET("/scoreboards")
+    @GET("/scoreboards/friends")
     suspend fun getScoreBoard(@Header("Authorization") token: String): Response<List<ScoreboardData>>
 
 }

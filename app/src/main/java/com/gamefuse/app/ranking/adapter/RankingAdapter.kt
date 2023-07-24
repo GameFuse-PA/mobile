@@ -11,33 +11,37 @@ import com.gamefuse.app.api.model.response.ScoreboardData
 import com.squareup.picasso.Picasso
 
 
-class RankingAdapter(private val scores: List<ScoreboardData>) :
-    RecyclerView.Adapter<RankingAdapter.RankingViewHolder>() {
+class RankingAdapter(private val scores: List<ScoreboardData>): RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
 
-    private val sortedScores: List<ScoreboardData> = scores.sortedByDescending { scoreboardData ->
-        scoreboardData.scores.sumOf { scoreData -> scoreData.score }
-    }
-
-    class RankingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val avatarImageView: ImageView = itemView.findViewById(R.id.avatarImageView)
         val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
         val scoreTextView: TextView = itemView.findViewById(R.id.scoreTextView)
         val iconImageView: ImageView = itemView.findViewById(R.id.imageViewTrophee)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankingViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.ranking_component, parent, false)
-        return RankingViewHolder(itemView)
+        return ViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: RankingViewHolder, position: Int) {
+    private val sortedScores: List<ScoreboardData> = scores.sortedByDescending { scoreboardData ->
+        scoreboardData.scores.sumOf { scoreData -> scoreData.score }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val player = scores[position]
         player.let {
-            Picasso.get()
-                .load(player.avatar.location)
-                .into(holder.avatarImageView)
-
+            try {
+                Picasso.get()
+                    .load(player.avatar.location)
+                    .into(holder.avatarImageView)
+            } catch (e: Exception){
+                Picasso.get()
+                    .load(R.drawable.photo_avatar_profil)
+                    .into(holder.avatarImageView)
+            }
             holder.usernameTextView.text = player.username
             holder.scoreTextView.text = player.scores.size.toString()
             if (position == 0) {
@@ -46,6 +50,8 @@ class RankingAdapter(private val scores: List<ScoreboardData>) :
                 holder.iconImageView.setImageResource(R.drawable.coupe__argent)
             } else if (position == 2) {
                 holder.iconImageView.setImageResource(R.drawable.coupe_bronze)
+            } else {
+                holder.iconImageView.setImageResource(R.drawable.classic_trophy)
             }
 
         }

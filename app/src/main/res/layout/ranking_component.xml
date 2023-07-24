@@ -42,8 +42,8 @@
 
         <ImageView
             android:id="@+id/imageViewTrophee"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:gravity="center"

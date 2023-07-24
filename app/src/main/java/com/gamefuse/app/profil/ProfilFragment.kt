@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +24,7 @@ import com.gamefuse.app.api.model.request.UpdateProfil
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.UserFromBack
 import com.gamefuse.app.myFriendsList.FriendsListActivity
+import com.gamefuse.app.ranking.RankingActivity
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -51,6 +53,7 @@ class ProfilFragment: Fragment() {
 
     private lateinit var dateChoosen: String
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,6 +69,7 @@ class ProfilFragment: Fragment() {
         this.textViewError = view.findViewById(R.id.textViewError)
         val friendsSection = view.findViewById<View>(R.id.my_friends_section)
         val saveButton: Button = view.findViewById(R.id.save_changes)
+        val rankingSection = view.findViewById<LinearLayout>(R.id.ranking_section)
 
         pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
@@ -114,6 +118,12 @@ class ProfilFragment: Fragment() {
 
         saveButton.setOnClickListener {
             updateProfile()
+        }
+
+        rankingSection.setOnClickListener {
+            val intent = Intent(requireContext(), RankingActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         return view
