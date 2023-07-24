@@ -1,5 +1,6 @@
 package com.gamefuse.app.conversation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.MessageModel
 import com.gamefuse.app.conversation.adapter.ConversationAdapter
+import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,11 +42,17 @@ class ConversationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
+        val closeConversation: ImageView = view.findViewById(R.id.close_conversation)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val conversationId = requireActivity().intent.getStringExtra("conversationId");
 
-        println("ma conv id : " + conversationId)
+        closeConversation.setOnClickListener {
+            val intent = Intent(requireContext(), MyConversationsActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
@@ -54,7 +62,6 @@ class ConversationFragment : Fragment() {
                 println(response)
                 if (response.isSuccessful) {
                     val conversation = response.body()
-                    println("display conv : " + conversation)
                     if (conversation != null) {
                         println("coucou" + conversation)
                         val adapter = ConversationAdapter(conversation.messages as MutableList<MessageModel>, recyclerView)

@@ -1,43 +1,68 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey"
-    android:padding="15dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/recipientAvatarImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="10dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/recipientUsernameTextView"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/dateLinear"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/recipientAvatarImageView"
-        app:layout_constraintTop_toTopOf="@id/recipientAvatarImageView"
-        android:layout_marginStart="10dp" />
+        android:paddingStart="10dp"
+        tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/recipientMessageContentTextView"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/messageDate"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintStart_toEndOf="@id/recipientAvatarImageView"
-        android:layout_marginStart="10dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/recipientUsernameTextView"/>
+        android:background="@drawable/custom_radius_grey"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@id/dateLinear"
+        tools:ignore="MissingConstraints,NotSibling">
+
+        <ImageView
+            android:id="@+id/recipientAvatarImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recipientUsernameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recipientAvatarImageView"
+            app:layout_constraintTop_toTopOf="@id/recipientAvatarImageView" />
+
+        <TextView
+            android:id="@+id/recipientMessageContentTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recipientAvatarImageView"
+            app:layout_constraintTop_toBottomOf="@id/recipientUsernameTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

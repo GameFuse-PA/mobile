@@ -12,6 +12,7 @@ import com.gamefuse.app.api.model.response.ConversationModelWithoutMessages
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 
 class MyConversationsAdapter(private val conversations: List<ConversationModelWithoutMessages>, private val onConversationClickListener: OnConversationClickListener
@@ -47,10 +48,14 @@ class MyConversationsAdapter(private val conversations: List<ConversationModelWi
             if(tmp == null) {
                 Picasso.get()
                     .load(R.drawable.photo_avatar_profil)
+                    .transform(
+                        CropCircleTransformation())
                     .into(holder.avatarImageView)
             } else {
                 Picasso.get()
                     .load(tmp)
+                    .transform(
+                        CropCircleTransformation())
                     .into(holder.avatarImageView)
             }
 

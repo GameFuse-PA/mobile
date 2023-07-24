@@ -1,48 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/conversationTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_my_conversations"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:text="@string/conversation_title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5" />
+        android:layout_height="55dp"
+        android:background="@color/primary"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/conversationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:text="@string/conversation_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
+            android:layout_marginStart="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:id="@+id/close_conversation"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:foregroundGravity="right"
+            android:paddingEnd="10dp"
+            android:src="@drawable/cross_quit"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints,RtlSymmetry"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationMessagesRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
-    app:layout_constraintTop_toBottomOf="@id/conversationTitle"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_my_conversations"
+        tools:ignore="NotSibling" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/messageInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"
-        app:layout_constraintEnd_toStartOf="@id/sendButton">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sendButton"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/messageEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences|textAutoCorrect"
+            android:background="@android:color/white"
             android:hint="Entrer un message"
-            android:background="@android:color/white" />
+            android:inputType="textCapSentences|textAutoCorrect" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,18 +80,18 @@
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/messageInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
         android:text="Envoyer"
-        android:layout_marginEnd="16dp"/>
+        app:layout_constraintBottom_toBottomOf="@id/messageInputLayout"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/dividerView"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/conversationTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/conversationMessagesRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
