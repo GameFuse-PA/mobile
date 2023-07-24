@@ -54,4 +54,5 @@
     <string name="error_picture">Impossible de charger l\'image</string>
     <string name="invite_accepted">Invitation acceptée</string>
     <string name="invite_refused">Invitation refusée</string>
+    <string name="score_board">Scoreboard</string>
 </resources>

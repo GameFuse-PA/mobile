@@ -16,6 +16,7 @@ import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
 import com.gamefuse.app.register.RegisterActivity
 import com.gamefuse.app.myFriendsList.FriendsListActivity
+import com.gamefuse.app.ranking.RankingActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -92,7 +93,7 @@ class LoginFragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     Connect.authToken = Gson().toJson(response.body())
-                    val intent = Intent(context, FriendsListActivity::class.java)
+                    val intent = Intent(context, RankingActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
                 } else {
