@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -21,18 +22,20 @@ import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.listInvitations.MyInvitations
+import com.gamefuse.app.myConversations.MyConversationsFragment
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
-import com.gamefuse.app.myFriendsList.service.ApiFriendsInterface
+import com.gamefuse.app.profil.ProfilActivity
+import com.gamefuse.app.ranking.RankingActivity
 import com.gamefuse.app.searchFriend.SearchFriend
-import com.gamefuse.app.service.ReloadFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
+class FriendsListFragment: Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val token = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
@@ -53,18 +56,50 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                 DividerItemDecoration.VERTICAL)
         )
         val searchFriendButton = view.findViewById<ImageView>(R.id.add_friend_button)
+        val invitationsButton = view.findViewById<ImageView>(R.id.my_invitations)
 
         val listFriends: MutableList<ListFriendsDto> = mutableListOf()
 
         val imageNoFriends: ImageView = view.findViewById(R.id.empty_list_image)
         val textNoFriends: TextView = view.findViewById(R.id.empty_list_text)
 
+        val myProfilSection = view.findViewById<View>(R.id.profil_section)
+
+        val rankingSection = view.findViewById<LinearLayout>(R.id.ranking_section)
+
+        val conversations = view.findViewById<LinearLayout>(R.id.my_conversations)
+
         imageNoFriends.visibility = View.INVISIBLE
         textNoFriends.visibility = View.INVISIBLE
+
         searchFriendButton.setOnClickListener {
             val intent = Intent(requireContext(), SearchFriend::class.java)
             startActivity(intent)
         }
+        invitationsButton.setOnClickListener {
+            val intent = Intent(requireContext(), MyInvitations::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        myProfilSection.setOnClickListener{
+            val intent = Intent(requireContext(), ProfilActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        rankingSection.setOnClickListener {
+            val intent = Intent(requireContext(), RankingActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        conversations.setOnClickListener {
+            val intent = Intent(requireContext(), MyConversationsFragment::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
 
         getFriends(listFriends, imageNoFriends, textNoFriends, recyclerView)
 
@@ -99,7 +134,7 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
                         textNoFriends.visibility = View.INVISIBLE
                         listFriends.add(ListFriendsDto(friend.id, friend.name, friend.username, image))
                     }
-                    val adapter = FriendsAdapter(listFriends, this@FriendsListFragment)
+                    val adapter = FriendsAdapter(listFriends)
                     recyclerView.adapter = adapter
                     recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                         override fun getItemOffsets(
@@ -124,38 +159,6 @@ class FriendsListFragment: Fragment(), ReloadFragment, ApiFriendsInterface {
             }
         }
 
-    }
-
-    override fun deleteFriend(id: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                val request = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.deleteFriend("Bearer " + token.access_token, id)
-                }
-                if (request.isSuccessful){
-                    reloadFragment()
-                    return@launch
-                }else{
-                    Toast.makeText(context, "Erreur lors de la suppression de l'ami", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                e.message?.let { Log.e("Erreur requête", it) }
-            }
-        }
-    }
-
-    override fun reloadFragment() {
-        val fragment = FriendsListFragment()
-
-        val fragmentManager = parentFragmentManager
-
-        val transaction = fragmentManager.beginTransaction()
-
-        transaction.replace(R.id.containerFragment, fragment)
-
-        transaction.addToBackStack(null)
-
-        transaction.commit()
     }
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()

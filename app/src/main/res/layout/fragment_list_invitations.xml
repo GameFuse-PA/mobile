@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
-            android:text="@string/my_friends"
+            android:text="@string/my_invitations"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
@@ -33,26 +33,15 @@
             android:textColor="@color/white"/>
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:layout_constraintEnd_toStartOf="@id/add_friend_button"
-            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/my_invitations"
-            android:src="@drawable/my_invitations"
-            android:contentDescription="@string/add_friends" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline_center_header"
             app:layout_constraintBottom_toBottomOf="@id/guideline_center_header"
             android:layout_marginEnd="20dp"
-            android:id="@+id/add_friend_button"
-            android:src="@drawable/add_friend_icon_header"
-            android:contentDescription="@string/add_friends" />
+            android:id="@+id/cross_quit_invitations"
+            android:src="@drawable/cross_quit"
+            android:contentDescription="@string/quit_activity_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,17 +58,6 @@
         android:id="@+id/guideline_center_vertically"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5"/>
-
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:layout_constraintTop_toTopOf="@id/guideline_center"
-        app:layout_constraintBottom_toTopOf="@id/guideline_center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/empty_list_image"
-        android:src="@drawable/friends_icon"
-        android:contentDescription="@string/no_friends_yet_image" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -103,10 +81,11 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:id="@+id/empty_list_text"
-        app:layout_constraintTop_toBottomOf="@id/empty_list_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/begin_text"
         app:layout_constraintEnd_toEndOf="@id/end_text"
-        android:text="@string/no_friends_text"
+        android:text="@string/no_invitations_text"
         />
 
     <ProgressBar
@@ -133,7 +112,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/list_friends"
+            android:id="@+id/list_invitations"
             />
 
     </LinearLayout>
@@ -164,22 +143,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.38"
+            app:layout_constraintGuide_percent="0.5"
             android:id="@+id/guideline_second_footer"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.63"
-            android:id="@+id/guideline_third_footer"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
             app:layout_constraintGuide_percent="0.85"
-            android:id="@+id/guideline_fourth_footer"/>
+            android:id="@+id/guideline_third_footer"/>
 
         <LinearLayout
             android:layout_width="60dp"
@@ -215,41 +187,11 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:orientation="vertical"
-            android:id="@+id/my_conversations"
-            android:gravity="center"
+            android:id="@+id/ranking_section"
             app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
             app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
             app:layout_constraintStart_toStartOf="@id/guideline_second_footer"
             app:layout_constraintEnd_toEndOf="@id/guideline_second_footer">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/conversations"
-                android:layout_weight="0.35"
-                android:contentDescription="@string/my_conversations" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_weight="0.65"
-                android:text="@string/my_friends"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:orientation="vertical"
-            android:id="@+id/ranking_section"
-            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
-            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
-            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -278,8 +220,8 @@
             android:id="@+id/profil_section"
             app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
             app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
-            app:layout_constraintStart_toStartOf="@id/guideline_fourth_footer"
-            app:layout_constraintEnd_toEndOf="@id/guideline_fourth_footer">
+            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
 
             <ImageView
                 android:layout_width="match_parent"

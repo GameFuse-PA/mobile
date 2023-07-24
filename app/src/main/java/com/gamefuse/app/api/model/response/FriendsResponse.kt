@@ -12,7 +12,9 @@ data class User(
     @SerializedName("_id")
     val id: String,
     @SerializedName("firstname")
-    val name: String,
+    val name: String?,
+    val lastname: String?,
+    val birthdate: String?,
     val email: String,
     val username: String,
     var avatar: Avatar?,
