@@ -23,6 +23,7 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.listInvitations.MyInvitations
+import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.gamefuse.app.myConversations.MyConversationsFragment
 import com.gamefuse.app.myFriendsList.adapter.FriendsAdapter
 import com.gamefuse.app.myFriendsList.dto.ListFriendsDto
@@ -95,7 +96,7 @@ class FriendsListFragment: Fragment() {
         }
 
         conversations.setOnClickListener {
-            val intent = Intent(requireContext(), MyConversationsFragment::class.java)
+            val intent = Intent(requireContext(), MyConversationsActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }

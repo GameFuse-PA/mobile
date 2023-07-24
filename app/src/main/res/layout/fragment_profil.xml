@@ -206,15 +206,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintGuide_percent="0.38"
             android:id="@+id/guideline_second_footer"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85"
+            app:layout_constraintGuide_percent="0.63"
             android:id="@+id/guideline_third_footer"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85"
+            android:id="@+id/guideline_fourth_footer"/>
 
         <LinearLayout
             android:layout_width="60dp"
@@ -250,11 +257,41 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:orientation="vertical"
-            android:id="@+id/ranking_section"
+            android:id="@+id/my_conversations"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
             app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
             app:layout_constraintStart_toStartOf="@id/guideline_second_footer"
             app:layout_constraintEnd_toEndOf="@id/guideline_second_footer">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/conversations_unselected_icon"
+                android:layout_weight="0.35"
+                android:contentDescription="@string/my_conversations" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_weight="0.65"
+                android:text="@string/my_conversations"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:id="@+id/ranking_section"
+            app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
+            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -283,8 +320,8 @@
             android:id="@+id/profil_section"
             app:layout_constraintTop_toTopOf="@id/guideline_middle_footer"
             app:layout_constraintBottom_toBottomOf="@id/guideline_middle_footer"
-            app:layout_constraintStart_toStartOf="@id/guideline_third_footer"
-            app:layout_constraintEnd_toEndOf="@id/guideline_third_footer">
+            app:layout_constraintStart_toStartOf="@id/guideline_fourth_footer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_fourth_footer">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -305,6 +342,7 @@
 
 
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

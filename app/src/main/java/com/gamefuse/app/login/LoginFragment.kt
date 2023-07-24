@@ -14,7 +14,6 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.LoginUser
 import com.gamefuse.app.forgotPassword.ForgotPasswordActivity
-import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.gamefuse.app.register.RegisterActivity
 import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.google.gson.Gson
@@ -93,7 +92,7 @@ class LoginFragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     Connect.authToken = Gson().toJson(response.body())
-                    val intent = Intent(context, MyConversationsActivity::class.java)
+                    val intent = Intent(context, FriendsListActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
                 } else {

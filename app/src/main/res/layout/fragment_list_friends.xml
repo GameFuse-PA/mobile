@@ -226,7 +226,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:src="@drawable/conversations"
+                android:src="@drawable/conversations_unselected_icon"
                 android:layout_weight="0.35"
                 android:contentDescription="@string/my_conversations" />
 
@@ -237,7 +237,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:layout_weight="0.65"
-                android:text="@string/my_friends"/>
+                android:text="@string/my_conversations"/>
 
         </LinearLayout>
 

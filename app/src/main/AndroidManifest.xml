@@ -51,7 +51,6 @@
         <activity
             android:name=".conversation.ConversationActivity"
             android:exported="true"/>
-            android:exported="true" />
         <activity
             android:name=".ranking.RankingActivity"
             android:exported="true" />

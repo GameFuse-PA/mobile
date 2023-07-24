@@ -15,6 +15,7 @@ import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.ForgotPassword
 import com.gamefuse.app.api.model.response.LoginResponse
+import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.profil.ProfilActivity
 import com.gamefuse.app.ranking.adapter.RankingAdapter
@@ -41,6 +42,7 @@ class RankingFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
         val friendsSection = view.findViewById<View>(R.id.my_friends_section)
         val myProfilSection = view.findViewById<View>(R.id.profil_section)
+        val conversations = view.findViewById<LinearLayout>(R.id.my_conversations)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
@@ -78,6 +80,12 @@ class RankingFragment : Fragment() {
 
         friendsSection.setOnClickListener{
             val intent = Intent(requireContext(), FriendsListActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+        
+        conversations.setOnClickListener {
+            val intent = Intent(requireContext(), MyConversationsActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }

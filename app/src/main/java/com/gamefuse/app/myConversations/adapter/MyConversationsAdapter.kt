@@ -43,9 +43,16 @@ class MyConversationsAdapter(private val conversations: List<ConversationModelWi
         }
         val user = conversation.users[indexTarget]
         user.let {
-            Picasso.get()
-                .load(user.avatar?.location)
-                .into(holder.avatarImageView)
+            val tmp = user.avatar?.location;
+            if(tmp == null) {
+                Picasso.get()
+                    .load(R.drawable.photo_avatar_profil)
+                    .into(holder.avatarImageView)
+            } else {
+                Picasso.get()
+                    .load(tmp)
+                    .into(holder.avatarImageView)
+            }
 
             holder.usernameTextView.text = user.username
 

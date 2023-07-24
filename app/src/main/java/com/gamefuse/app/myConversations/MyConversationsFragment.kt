@@ -16,6 +16,9 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.conversation.ConversationActivity
 import com.gamefuse.app.myConversations.adapter.MyConversationsAdapter
+import com.gamefuse.app.myFriendsList.FriendsListActivity
+import com.gamefuse.app.profil.ProfilActivity
+import com.gamefuse.app.ranking.RankingActivity
 import com.gamefuse.app.register.RegisterActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +46,38 @@ class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversatio
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+
+        val myProfilSection = view.findViewById<View>(R.id.profil_section)
+
+        val rankingSection = view.findViewById<LinearLayout>(R.id.ranking_section)
+
+        val conversations = view.findViewById<LinearLayout>(R.id.my_conversations)
+
+        val friendsSection = view.findViewById<View>(R.id.my_friends_section)
+
+        friendsSection.setOnClickListener{
+            val intent = Intent(requireContext(), FriendsListActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        myProfilSection.setOnClickListener{
+            val intent = Intent(requireContext(), ProfilActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        rankingSection.setOnClickListener {
+            val intent = Intent(requireContext(), RankingActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        conversations.setOnClickListener {
+            val intent = Intent(requireContext(), MyConversationsActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         CoroutineScope(Dispatchers.Main).launch {
