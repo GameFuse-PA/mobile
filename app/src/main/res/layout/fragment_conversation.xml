@@ -34,6 +34,17 @@
             android:textColor="@color/white"/>
 
         <ImageView
+            android:id="@+id/reload"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/download"
+            app:layout_constraintEnd_toStartOf="@+id/close_conversation"
+            tools:ignore="MissingConstraints,RtlSymmetry"
+            app:layout_constraintTop_toTopOf="@id/guideline_center_header"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center_header" />
+
+        <ImageView
             android:id="@+id/close_conversation"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -71,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:hint="Entrer un message"
+            android:hint="@string/enter_message"
             android:inputType="textCapSentences|textAutoCorrect" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -81,9 +92,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Envoyer"
+        android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="@id/messageInputLayout"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/green"/>
 
     <View
         android:id="@+id/dividerView"

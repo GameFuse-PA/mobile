@@ -56,5 +56,7 @@
     <string name="score_board">Scoreboard</string>
     <string name="my_conversations">My conversations</string>
     <string name="conversation_title">Conversation with</string>
+    <string name="send">Send message</string>
+    <string name="enter_message">Enter message</string>
 
 </resources>

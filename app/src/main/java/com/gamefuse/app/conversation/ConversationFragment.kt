@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gamefuse.app.Connect
 import com.gamefuse.app.R
 import com.gamefuse.app.api.ApiClient
+import com.gamefuse.app.api.model.request.MessageForChat
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.MessageModel
+import com.gamefuse.app.api.model.response.User
 import com.gamefuse.app.conversation.adapter.ConversationAdapter
 import com.gamefuse.app.myConversations.MyConversationsActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +32,10 @@ class ConversationFragment : Fragment() {
 
     private var progressBar: ProgressBar? = null
     private val user = Gson().fromJson(Connect.authToken, LoginResponse::class.java)
+    var messageEditText: TextInputEditText? = null;
+    var users: List<User>? = null;
+    var conversationId: String? = null
+    var recyclerView: RecyclerView? = null;
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,11 +49,13 @@ class ConversationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.conversationMessagesRecyclerView)
         val closeConversation: ImageView = view.findViewById(R.id.close_conversation)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val sendButton: MaterialButton = view.findViewById(R.id.sendButton)
+        val reload: ImageView = view.findViewById(R.id.reload)
+        messageEditText = view.findViewById(R.id.messageEditText);
 
-        val conversationId = requireActivity().intent.getStringExtra("conversationId");
+
+        conversationId = requireActivity().intent.getStringExtra("conversationId");
 
         closeConversation.setOnClickListener {
             val intent = Intent(requireContext(), MyConversationsActivity::class.java)
@@ -53,20 +63,41 @@ class ConversationFragment : Fragment() {
             activity?.finish()
         }
 
+        sendButton.setOnClickListener {
+            sendMessage();
+        }
+
+        reload.setOnClickListener(){
+            this.loadConversation();
+        }
+        this.loadConversation();
+    }
+
+    private fun loadConversation() {
+        recyclerView = view?.findViewById(R.id.conversationMessagesRecyclerView)
+
+        recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.Main).launch {
             startLoading()
             try {
                 val response = withContext(Dispatchers.IO) {
-                    ApiClient.apiService.getConversation("Bearer " + user.access_token, conversationId.toString())
+                    ApiClient.apiService.getConversation(
+                        "Bearer " + user.access_token,
+                        conversationId.toString()
+                    )
                 }
-                println(response)
                 if (response.isSuccessful) {
                     val conversation = response.body()
                     if (conversation != null) {
-                        println("coucou" + conversation)
-                        val adapter = ConversationAdapter(conversation.messages as MutableList<MessageModel>, recyclerView)
-                        recyclerView.adapter = adapter
-                        adapter.scrollToBottom()
+                        users = conversation.users;
+                        val adapter = recyclerView?.let {
+                            ConversationAdapter(
+                                conversation.messages as MutableList<MessageModel>,
+                                it
+                            )
+                        }
+                        recyclerView?.adapter = adapter
+                        adapter?.scrollToBottom()
                     } else {
                         Toast.makeText(
                             context,
@@ -83,6 +114,52 @@ class ConversationFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Toast.makeText(context, "nono", Toast.LENGTH_LONG).show()
+                e.message?.let { Log.e("Erreur de requête", it) }
+            } finally {
+                stopLoading()
+            }
+        }
+    }
+
+    private fun sendMessage() {
+        CoroutineScope(Dispatchers.Main).launch {
+            startLoading()
+            try {
+                var to: String? = null;
+                if (users?.get(0)?.id.equals(user.user._id)) {
+                    to = users?.get(1)?.id
+                } else {
+                    to = users?.get(0)?.id
+                }
+                if (conversationId != null && to != null) {
+                    val messageToSend = MessageForChat(
+                        content = messageEditText?.text.toString(),
+                        conversationId = conversationId!!,
+                        to = to,
+                    )
+                    messageEditText?.setText("")
+                    val response = withContext(Dispatchers.IO) {
+                        ApiClient.apiService.sendMessage(
+                            "Bearer " + user.access_token,
+                            messageToSend
+                        )
+                    }
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            context,
+                            "Message envoyé",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Une erreur s'est produite lors de l'envoi du message",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "error", Toast.LENGTH_LONG).show()
                 e.message?.let { Log.e("Erreur de requête", it) }
             } finally {
                 stopLoading()

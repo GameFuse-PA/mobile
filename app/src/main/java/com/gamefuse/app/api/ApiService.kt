@@ -3,6 +3,7 @@ package com.gamefuse.app.api
 import com.gamefuse.app.api.model.request.ForgotPassword
 import com.gamefuse.app.api.model.request.Invitations
 import com.gamefuse.app.api.model.request.LoginUser
+import com.gamefuse.app.api.model.request.MessageForChat
 import com.gamefuse.app.api.model.request.RegisterUser
 import com.gamefuse.app.api.model.request.UpdateProfil
 import com.gamefuse.app.api.model.response.ConversationModelWithMessages
@@ -79,5 +80,9 @@ interface ApiService {
 
     @GET("/scoreboards/friends")
     suspend fun getScoreBoard(@Header("Authorization") token: String): Response<List<ScoreboardData>>
+
+    @Headers("Content-Type: application/json")
+    @POST("/me/postMessage")
+    suspend fun sendMessage(@Header("Authorization") token: String, @Body message: MessageForChat): Response<ResponseAPISuccess>
 
 }

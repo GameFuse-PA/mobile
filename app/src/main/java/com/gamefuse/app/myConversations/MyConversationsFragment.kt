@@ -127,7 +127,6 @@ class MyConversationsFragment : Fragment(), MyConversationsAdapter.OnConversatio
         println("la convid avant la transmission : " + conversationId)
         intent.putExtra("conversationId", conversationId)
         startActivity(intent)
-        activity?.finish()
     }
 
 }
