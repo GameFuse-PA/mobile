@@ -90,7 +90,6 @@ class ConversationAdapter(private val messages: MutableList<MessageModel>, priva
                 .into(holder.messageAvatarImageView)
 
             val formattedDate = convertDateFormat(message.date.toString())
-            println("coucou" + formattedDate)
             holder.messageUsernameTextView.text = user.username
             holder.messageContentTextView.text = message.content
             holder.messageDate.text = formattedDate

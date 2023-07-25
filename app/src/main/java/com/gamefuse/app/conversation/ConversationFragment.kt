@@ -158,9 +158,7 @@ class ConversationFragment : Fragment() {
                         ).show()
                     }
                 }
-            } catch (e: Exception) {
-                Toast.makeText(context, "error", Toast.LENGTH_LONG).show()
-                e.message?.let { Log.e("Erreur de requête", it) }
+            } catch (_: Exception) {
             } finally {
                 stopLoading()
             }
