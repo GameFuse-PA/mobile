@@ -3,8 +3,11 @@ package com.gamefuse.app.api
 import com.gamefuse.app.api.model.request.ForgotPassword
 import com.gamefuse.app.api.model.request.Invitations
 import com.gamefuse.app.api.model.request.LoginUser
+import com.gamefuse.app.api.model.request.MessageForChat
 import com.gamefuse.app.api.model.request.RegisterUser
 import com.gamefuse.app.api.model.request.UpdateProfil
+import com.gamefuse.app.api.model.response.ConversationModelWithMessages
+import com.gamefuse.app.api.model.response.ConversationModelWithoutMessages
 import com.gamefuse.app.api.model.response.FriendsListResponse
 import com.gamefuse.app.api.model.response.InvitationsResponse
 import com.gamefuse.app.api.model.response.LoginResponse
@@ -55,6 +58,14 @@ interface ApiService {
     suspend fun deleteFriend(@Header("Authorization") token: String, @Path("id") id: String): Response<ResponseAPISuccess>
 
     @Headers("Content-Type: application/json")
+    @GET("/me/conversations")
+    suspend fun getConversations(@Header("Authorization") token: String): Response<List<ConversationModelWithoutMessages>>
+
+    @Headers("Content-Type: application/json")
+    @GET("/me/conversations/{id}")
+    suspend fun getConversation(@Header("Authorization") token: String, @Path("id") conversationId: String): Response<ConversationModelWithMessages>
+
+    @Headers("Content-Type: application/json")
     @POST("/invitations/accept")
     suspend fun acceptInvitation(@Header("Authorization") token: String, @Body data: Invitations): Response<ResponseAPISuccess>
 
@@ -69,5 +80,9 @@ interface ApiService {
 
     @GET("/scoreboards/friends")
     suspend fun getScoreBoard(@Header("Authorization") token: String): Response<List<ScoreboardData>>
+
+    @Headers("Content-Type: application/json")
+    @POST("/me/postMessage")
+    suspend fun sendMessage(@Header("Authorization") token: String, @Body message: MessageForChat): Response<ResponseAPISuccess>
 
 }

@@ -55,4 +55,9 @@
     <string name="invite_accepted">Invitation acceptée</string>
     <string name="invite_refused">Invitation refusée</string>
     <string name="score_board">Scoreboard</string>
+    <string name="my_conversations">Messages</string>
+    <string name="conversation_title">Conversation avec</string>
+    <string name="send">Envoyer</string>
+    <string name="enter_message">Entrer un message</string>
+
 </resources>
