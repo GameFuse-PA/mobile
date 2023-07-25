@@ -23,6 +23,7 @@ import com.gamefuse.app.api.ApiClient
 import com.gamefuse.app.api.model.request.UpdateProfil
 import com.gamefuse.app.api.model.response.LoginResponse
 import com.gamefuse.app.api.model.response.UserFromBack
+import com.gamefuse.app.myConversations.MyConversationsActivity
 import com.gamefuse.app.myFriendsList.FriendsListActivity
 import com.gamefuse.app.ranking.RankingActivity
 import com.google.gson.Gson
@@ -70,6 +71,8 @@ class ProfilFragment: Fragment() {
         val friendsSection = view.findViewById<View>(R.id.my_friends_section)
         val saveButton: Button = view.findViewById(R.id.save_changes)
         val rankingSection = view.findViewById<LinearLayout>(R.id.ranking_section)
+        val conversations = view.findViewById<LinearLayout>(R.id.my_conversations)
+
 
         pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
@@ -108,6 +111,12 @@ class ProfilFragment: Fragment() {
                     dateChoosen = "$selectedYear-${monthOfYear + 1}-$dayOfMonth"
                 }, year, month, day
             ).show()
+        }
+
+        conversations.setOnClickListener {
+            val intent = Intent(requireContext(), MyConversationsActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         friendsSection.setOnClickListener{
